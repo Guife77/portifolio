@@ -1,7 +1,7 @@
-// Definir o idioma padrão como português
+
 let currentLanguage = 'pt';
 
-// Função para definir o idioma
+
 function setLanguage(lang) {
     currentLanguage = lang;
     localStorage.setItem('preferredLanguage', lang);
@@ -10,9 +10,8 @@ function setLanguage(lang) {
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
 }
 
-// Função para atualizar o conteúdo com base no idioma selecionado
 function updateLanguage() {
-    // Selecionar todos os elementos com os atributos data-en e data-pt
+   
     const elements = document.querySelectorAll('[data-en][data-pt]');
 
     elements.forEach(element => {
@@ -23,7 +22,7 @@ function updateLanguage() {
     });
 }
 
-// Função para atualizar a classe ativa nos botões de idioma
+
 function updateActiveButton() {
     const buttons = document.querySelectorAll('.language-switcher button');
     buttons.forEach(button => {
@@ -45,5 +44,4 @@ function loadLanguage() {
     document.documentElement.lang = currentLanguage === 'pt' ? 'pt-BR' : 'en';
 }
 
-// Carregar o idioma ao iniciar
 document.addEventListener('DOMContentLoaded', loadLanguage);
