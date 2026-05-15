@@ -1,172 +1,502 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-en="Guilherme Costa's Portfolio" data-pt="Portfólio de Guilherme Costa">Portfólio de Guilherme Costa</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gui Fernandes — Desenvolvedor & Analista de Sistemas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --bg2: #111111; --bg3: #1a1a1a;
+    --accent: #c8ff00; --accent2: #00ffcc;
+    --text: #e8e8e0; --muted: #666660;
+    --border: #2a2a2a; --tag-bg: #1e1e1e;
+    --px: 4rem;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; cursor: none; }
+
+  .cursor { width:12px;height:12px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .15s ease,opacity .2s;mix-blend-mode:difference; }
+  .cursor-ring { width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;opacity:.5;transition:all .08s ease; }
+
+  body::before { content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:.4; }
+
+  nav { position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.5rem var(--px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s; }
+  nav.scrolled { background:rgba(10,10,10,.92);border-bottom-color:var(--border);backdrop-filter:blur(12px); }
+  .nav-logo { font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);letter-spacing:.08em;text-decoration:none; }
+  .nav-links { display:flex;gap:2.5rem;list-style:none; }
+  .nav-links a { font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s; }
+  .nav-links a:hover { color:var(--text); }
+
+  .nav-toggle { display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:101; }
+  .nav-toggle span { display:block;width:22px;height:1px;background:var(--muted);transition:transform .3s,opacity .3s; }
+  .nav-toggle.open span:nth-child(1) { transform:translateY(6px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity:0; }
+  .nav-toggle.open span:nth-child(3) { transform:translateY(-6px) rotate(-45deg); }
+
+  .mobile-menu { display:none;position:fixed;inset:0;background:rgba(10,10,10,.97);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem; }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a { font-family:'Fraunces',serif;font-size:2.5rem;font-weight:700;color:var(--muted);text-decoration:none;letter-spacing:-.02em;transition:color .2s; }
+  .mobile-menu a:hover { color:var(--accent); }
+
+  .hero { min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem var(--px) 4rem;position:relative; }
+  .hero-tag { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem;opacity:0;animation:fadeUp .8s .2s forwards; }
+  .hero-name { font-family:'Fraunces',serif;font-size:clamp(3.5rem,10vw,9rem);font-weight:700;line-height:.9;letter-spacing:-.03em;color:var(--text);opacity:0;animation:fadeUp .8s .4s forwards; }
+  .hero-name em { font-style:italic;font-weight:300;color:var(--muted); }
+  .hero-desc { max-width:540px;margin-top:2.5rem;font-size:17px;font-weight:300;color:var(--muted);line-height:1.8;opacity:0;animation:fadeUp .8s .6s forwards; }
+  .hero-desc strong { color:var(--text);font-weight:400; }
+  .hero-actions { margin-top:3rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .8s forwards; }
+
+  .btn-primary { font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#0a0a0a;padding:14px 28px;border:none;text-decoration:none;display:inline-block;font-weight:500;transition:transform .2s,box-shadow .2s; }
+  .btn-primary:hover { transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--accent2); }
+  .btn-ghost { font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .2s; }
+  .btn-ghost:hover { color:var(--text); }
+  .btn-ghost::after { content:'→'; }
+
+  .hero-stats { position:absolute;right:var(--px);bottom:4rem;display:flex;flex-direction:column;gap:2rem;opacity:0;animation:fadeUp .8s 1s forwards; }
+  .stat-item { text-align:right; }
+  .stat-number { font-family:'Fraunces',serif;font-size:2.5rem;font-weight:700;color:var(--text);line-height:1; }
+  .stat-label { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:4px; }
+
+  .scroll-hint { position:absolute;bottom:2rem;left:var(--px);display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp .8s 1.2s forwards; }
+  .scroll-line { width:40px;height:1px;background:var(--muted); }
+  .scroll-text { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted); }
+
+  section { padding:8rem var(--px);border-top:1px solid var(--border); }
+  .section-header { display:flex;align-items:baseline;gap:1.5rem;margin-bottom:5rem; }
+  .section-num { font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.1em;white-space:nowrap; }
+  .section-title { font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,4rem);font-weight:700;line-height:1;color:var(--text);letter-spacing:-.02em; }
+  .section-title em { font-style:italic;font-weight:300;color:var(--muted); }
+
+  .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start; }
+  .about-text p { font-size:17px;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1.5rem; }
+  .about-text p strong { color:var(--text);font-weight:400; }
+  .skills-panel { display:flex;flex-direction:column;gap:2rem; }
+  .skill-category { border-top:1px solid var(--border);padding-top:1.5rem; }
+  .skill-cat-name { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem; }
+  .skill-tags { display:flex;flex-wrap:wrap;gap:8px; }
+  .tag { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--muted);background:var(--tag-bg);border:1px solid var(--border);padding:5px 12px;border-radius:2px;transition:color .2s,border-color .2s; }
+  .tag:hover { color:var(--text);border-color:var(--muted); }
+
+  .projects-grid { display:grid;gap:1px;background:var(--border); }
+  .project-card { background:var(--bg);padding:3rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;transition:background .3s;text-decoration:none;color:inherit;position:relative;overflow:hidden; }
+  .project-card::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent) 0%,transparent 60%);opacity:0;transition:opacity .4s; }
+  .project-card:hover::before { opacity:.03; }
+  .project-card:hover { background:var(--bg2); }
+  .project-meta { display:flex;gap:1rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap; }
+  .project-type { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent); }
+  .project-year { font-family:'DM Mono',monospace;font-size:10px;color:var(--muted); }
+  .project-name { font-family:'Fraunces',serif;font-size:clamp(1.3rem,3vw,1.8rem);font-weight:700;color:var(--text);letter-spacing:-.02em;line-height:1.1;margin-bottom:.8rem; }
+  .project-desc { font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;max-width:520px; }
+  .project-stack { display:flex;flex-wrap:wrap;gap:6px;margin-top:1.5rem; }
+  .stack-tag { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--border);padding:3px 8px;border-radius:1px; }
+  .project-arrow { font-family:'DM Mono',monospace;font-size:1.5rem;color:var(--muted);transition:color .2s,transform .2s;padding-top:.5rem;align-self:start; }
+  .project-card:hover .project-arrow { color:var(--accent);transform:translate(4px,-4px); }
+  .project-highlight { display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#0a0a0a;background:var(--accent);padding:3px 8px;margin-bottom:1rem; }
+
+  .services-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:1px; }
+  .services-grid-wide { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border); }
+  .service-card { background:var(--bg);padding:3rem 2.5rem;transition:background .3s; }
+  .service-card:hover { background:var(--bg2); }
+  .service-icon { font-family:'DM Mono',monospace;font-size:2rem;color:var(--accent);margin-bottom:1.5rem;display:block; }
+  .service-name { font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:1rem;letter-spacing:-.01em; }
+  .service-desc { font-size:14px;font-weight:300;color:var(--muted);line-height:1.8; }
+
+  .terminal-section { background:var(--bg2); }
+  .terminal-window { border:1px solid var(--border);border-radius:4px;overflow:hidden;max-width:680px;width:100%; }
+  .terminal-bar { background:var(--bg3);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border); }
+  .t-dot { width:10px;height:10px;border-radius:50%; }
+  .t-dot.red{background:#ff5f57}.t-dot.yellow{background:#ffbd2e}.t-dot.green{background:#28c941}
+  .terminal-title { font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-left:8px;letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .terminal-body { padding:2rem;font-family:'DM Mono',monospace;font-size:13px;line-height:2;overflow-x:auto; }
+  .t-line{display:flex;gap:.75rem;white-space:nowrap}.t-prompt{color:var(--accent)}.t-cmd{color:var(--text)}.t-comment{color:var(--muted)}.t-output{color:#7ab8ff;margin-left:1rem}.t-string{color:var(--accent2)}.t-key{color:#ff7eb6}.t-blank{height:1rem}
+  .cursor-blink { display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:middle;animation:blink 1s step-end infinite; }
+
+  .contact-layout { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center; }
+  .contact-heading { font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,4rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:var(--text); }
+  .contact-heading em { font-style:italic;font-weight:300;color:var(--accent); }
+  .contact-sub { font-size:16px;font-weight:300;color:var(--muted);margin-top:1.5rem;line-height:1.8; }
+  .contact-links { display:flex;flex-direction:column;gap:1.5rem; }
+  .contact-link { display:flex;align-items:center;justify-content:space-between;padding:1.5rem;border:1px solid var(--border);text-decoration:none;color:var(--muted);transition:border-color .2s,color .2s,background .2s;gap:1rem; }
+  .contact-link:hover { border-color:var(--accent);color:var(--text);background:var(--bg2); }
+  .contact-link-inner { display:flex;flex-direction:column;gap:3px;min-width:0; }
+  .contact-link-label { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent); }
+  .contact-link-value { font-size:15px;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .contact-link-arrow { font-size:1.2rem;transition:transform .2s;flex-shrink:0; }
+  .contact-link:hover .contact-link-arrow { transform:translate(4px,-4px); }
+
+  footer { padding:2rem var(--px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem; }
+  .footer-copy,.footer-built { font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em; }
+  .footer-built span { color:var(--accent); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes blink { 50%{opacity:0} }
+  .reveal { opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease; }
+  .reveal.visible { opacity:1;transform:translateY(0); }
+
+  /* ── Tablet grande ── */
+  @media(max-width:1100px){
+    :root{--px:3rem}
+    .about-grid{gap:3rem}
+    .contact-layout{gap:3rem}
+  }
+
+  /* ── Tablet ── */
+  @media(max-width:900px){
+    :root{--px:2rem}
+    body{cursor:auto}
+    .cursor,.cursor-ring{display:none}
+    .nav-links{display:none}
+    .nav-toggle{display:flex}
+    .hero{padding:7rem var(--px) 6rem}
+    .hero-stats{position:static;flex-direction:row;flex-wrap:wrap;gap:1.5rem;margin-top:3rem;animation:fadeUp .8s 1s forwards}
+    .stat-item{text-align:left}
+    .stat-number{font-size:2rem}
+    .scroll-hint{display:none}
+    .about-grid{grid-template-columns:1fr;gap:3rem}
+    .about-text p{font-size:16px}
+    .project-card{padding:2rem}
+    .services-grid{grid-template-columns:1fr 1fr}
+    .services-grid-wide{grid-template-columns:1fr}
+    .terminal-body{font-size:11px;padding:1.5rem}
+    .contact-layout{grid-template-columns:1fr;gap:3rem}
+    footer{flex-direction:column;text-align:center}
+    section{padding:5rem var(--px)}
+    .section-header{margin-bottom:3rem}
+  }
+
+  /* ── Mobile ── */
+  @media(max-width:600px){
+    :root{--px:1.25rem}
+    .hero{padding:6rem var(--px) 5rem}
+    .hero-desc{font-size:15px}
+    .hero-actions{gap:1rem}
+    .btn-primary{padding:12px 20px;width:100%;text-align:center}
+    .btn-ghost{width:100%;justify-content:center}
+    .services-grid{grid-template-columns:1fr}
+    .service-card{padding:2rem 1.5rem}
+    .service-name{font-size:1.2rem}
+    .project-card{padding:1.5rem;grid-template-columns:1fr}
+    .project-arrow{display:none}
+    .project-desc{max-width:100%}
+    .contact-link{padding:1rem}
+    .contact-link-value{font-size:13px}
+    section{padding:4rem var(--px)}
+    .section-header{margin-bottom:2.5rem;flex-wrap:wrap}
+    .terminal-body{font-size:10px;padding:1rem;line-height:1.8}
+    .terminal-title{font-size:9px}
+  }
+
+  /* ── Mobile pequeno ── */
+  @media(max-width:380px){
+    :root{--px:1rem}
+    .hero-name{font-size:clamp(2.8rem,16vw,3.5rem)}
+    .contact-link-value{font-size:11px}
+    .mobile-menu a{font-size:2rem}
+  }
+</style>
 </head>
 <body>
-    <!-- Cabeçalho -->
-    <header>
-        <div class="container">
-            <h1 data-en="Guilherme Costa" data-pt="Guilherme Costa">Guilherme Costa</h1>
-            <p data-en="Automation and Back-end Developer" data-pt="Desenvolvedor de Automação e Back-end">Desenvolvedor de Automação e Back-end</p>
-            
-            <!-- Menu de Navegação com Botões de Idioma -->
-            <nav>
-                <ul>
-                    <li><a href="#sobre" data-en="About Me" data-pt="Sobre Mim">Sobre Mim</a></li>
-                    <li><a href="#habilidades" data-en="Skills" data-pt="Habilidades">Habilidades</a></li>
-                    <li><a href="#projetos" data-en="Projects" data-pt="Projetos">Projetos</a></li>
-                    <li><a href="#experiencia" data-en="Experience" data-pt="Experiência">Experiência</a></li>
-                    <li><a href="#educacao" data-en="Education" data-pt="Educação">Educação</a></li>
-                    <li><a href="#contato" data-en="Contact" data-pt="Contato">Contato</a></li>
-                </ul>
-            </nav>
 
-            <div class="language-switcher">
-                <button onclick="setLanguage('pt')" id="btn-pt">PT</button>
-                <button onclick="setLanguage('en')" id="btn-en">EN</button>
-            </div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#sobre"    onclick="closeMenu()">sobre</a>
+  <a href="#projetos" onclick="closeMenu()">projetos</a>
+  <a href="#servicos" onclick="closeMenu()">serviços</a>
+  <a href="#contato"  onclick="closeMenu()">contato</a>
+</div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">gui.fernandes</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">sobre</a></li>
+    <li><a href="#projetos">projetos</a></li>
+    <li><a href="#servicos">serviços</a></li>
+    <li><a href="#contato">contato</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<section class="hero">
+  <p class="hero-tag">// disponível para projetos freelance</p>
+  <h1 class="hero-name">Gui<br><em>Fernandes</em></h1>
+  <p class="hero-desc">
+    Desenvolvedor back-end &amp; analista de sistemas em São Paulo.
+    Construo <strong>integrações, automações e sistemas</strong> que realmente funcionam —
+    do ERP ao SaaS, da API ao relatório que o gestor vai entender.
+  </p>
+  <div class="hero-actions">
+    <a href="#projetos" class="btn-primary">Ver projetos</a>
+    <a href="#contato" class="btn-ghost">Falar comigo</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-number">1+</div><div class="stat-label">ano em TI</div></div>
+    <div class="stat-item"><div class="stat-number">5+</div><div class="stat-label">projetos entregues</div></div>
+    <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">café consumido</div></div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span class="scroll-text">scroll</span></div>
+</section>
+
+<section id="sobre">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Sobre <em>mim</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Sou analista de sistemas e desenvolvedor back-end baseado em São Paulo. Atuo como <strong>o único profissional de TI da CMS Impex</strong>, onde gerencio desde a infraestrutura Microsoft 365 até integrações com ERP e pipelines de dados para Power BI.</p>
+      <p>Paralelamente, curso <strong>Ciência da Computação na UNIP</strong> e desenvolvo o <strong>PreciZou</strong>, um SaaS multi-tenant de precificação para pequenos negócios que estou construindo do zero — arquitetura, produto e código.</p>
+      <p>Para clientes freelance, entrego <strong>soluções técnicas com visão de negócio</strong>: não só o que você pediu, mas o que vai realmente resolver o problema.</p>
+    </div>
+    <div class="skills-panel reveal">
+      <div class="skill-category">
+        <p class="skill-cat-name">Back-end & APIs</p>
+        <div class="skill-tags">
+          <span class="tag">PHP</span><span class="tag">Node.js</span><span class="tag">Python</span>
+          <span class="tag">MySQL</span><span class="tag">Prisma</span><span class="tag">REST APIs</span><span class="tag">JWT</span>
         </div>
-    </header>
-
-    <section id="sobre">
-        <div class="container">
-            <h2 data-en="About Me" data-pt="Sobre Mim">Sobre Mim</h2>
-            <img src="portifolio.jpg" alt="Foto de Guilherme" class="profile-photo">
-            <p data-en="Hello! I am Guilherme Fernandes Claudino Costa, a 19-year-old ambitious individual passionate about studying and the power of knowledge. I focus on developing automations, websites, and back-end systems using technologies like SQL, APIs, JavaScript, and Python. I spent a year studying abroad in Michigan, USA, which broadened my perspective and professional skills. My dream is to grow in the programming field, always bringing creative ideas and effective solutions to the challenges I encounter."
-               data-pt="Olá! Sou Guilherme Fernandes Claudino Costa, um jovem ambicioso de 19 anos apaixonado pelo estudo e pelo poder do conhecimento. Tenho foco no desenvolvimento de automações, websites e back-end, utilizando tecnologias como SQL, API, JavaScript e Python. Realizei um ano de intercâmbio em Michigan, EUA, o que ampliou minha visão e habilidades. Meu sonho é crescer na área de programação, sempre trazendo ideias criativas e soluções eficazes para os desafios que encontro.">
-                Olá! Sou Guilherme Fernandes Claudino Costa, um jovem ambicioso de 19 anos apaixonado pelo estudo e pelo poder do conhecimento. Tenho foco no desenvolvimento de automações, websites e back-end, utilizando tecnologias como SQL, API, JavaScript e Python. Realizei um ano de intercâmbio em Michigan, EUA, o que ampliou minha visão e habilidades. Meu sonho é crescer na área de programação, sempre trazendo ideias criativas e soluções eficazes para os desafios que encontro.
-            </p>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-name">Front-end & Full-stack</p>
+        <div class="skill-tags">
+          <span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">HTML/CSS</span>
         </div>
-    </section>
-
-    <!-- Seção Habilidades -->
-    <section id="habilidades">
-        <div class="container">
-            <h2 data-en="Skills" data-pt="Habilidades">Habilidades</h2>
-            <div class="skills">
-                <div class="skill">
-                    <h3 data-en="Python" data-pt="Python">Python</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="JavaScript" data-pt="JavaScript">JavaScript</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="SQL" data-pt="SQL">SQL</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="Basic API" data-pt="API Básico">APIs Básicas</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="Basic PHP" data-pt="PHP Básico">PHP Básico</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="Warehouse Management" data-pt="Gerenciamento de Armazenagem">Gerenciamento de Armazenagem</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="Inventory Management" data-pt="Gestão de Estoque">Gestão de Estoque</h3>
-                </div>
-                <div class="skill">
-                    <h3 data-en="Applied Mathematics" data-pt="Matemática Aplicada">Matemática Aplicada</h3>
-                </div>
-            </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-name">Dados & Sistemas</p>
+        <div class="skill-tags">
+          <span class="tag">Power BI</span><span class="tag">ETL Pipelines</span>
+          <span class="tag">ERP (Spalla)</span><span class="tag">Microsoft 365</span><span class="tag">SHA-256</span>
         </div>
-    </section>
-
-    <!-- Seção Projetos -->
-    <section id="projetos">
-        <div class="container">
-            <h2 data-en="Projects" data-pt="Projetos">Projetos</h2>
-            <div class="project-list">
-                <div class="project">
-                    <h3 data-en="Project One" data-pt="Projeto Um">Projeto Um</h3>
-                    <p data-en="A web automation tool developed using Python and JavaScript to streamline repetitive tasks."
-                       data-pt="Uma ferramenta de automação web desenvolvida com Python e JavaScript para agilizar tarefas repetitivas.">
-                        Uma ferramenta de automação web desenvolvida com Python e JavaScript para agilizar tarefas repetitivas.
-                    </p>
-                    <a href="https://github.com/seu-usuario/projeto1" target="_blank" data-en="View on GitHub" data-pt="Ver no GitHub">Ver no GitHub</a>
-                </div>
-                <div class="project">
-                    <h3 data-en="Project Two" data-pt="Projeto Dois">Projeto Dois</h3>
-                    <p data-en="A responsive website built with HTML, CSS, and JavaScript to showcase portfolio projects."
-                       data-pt="Um site responsivo construído com HTML, CSS e JavaScript para exibir projetos de portfólio.">
-                        Um site responsivo construído com HTML, CSS e JavaScript para exibir projetos de portfólio.
-                    </p>
-                    <a href="https://github.com/seu-usuario/projeto2" target="_blank" data-en="View on GitHub" data-pt="Ver no GitHub">Ver no GitHub</a>
-                </div>
-            </div>
+      </div>
+      <div class="skill-category">
+        <p class="skill-cat-name">Outros</p>
+        <div class="skill-tags">
+          <span class="tag">Git</span><span class="tag">SaaS Architecture</span><span class="tag">Java</span><span class="tag">Mercado Pago API</span>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Seção Experiência -->
-    <section id="experiencia">
-        <div class="container">
-            <h2 data-en="Experience" data-pt="Experiência">Experiência</h2>
-            <div class="experience-item">
-                <h3 data-en="Exchange Program in Michigan, USA" data-pt="Intercâmbio em Michigan, EUA">Intercâmbio em Michigan, EUA</h3>
-                <p data-en="Spent a year studying in Michigan, USA, enhancing my English skills and gaining valuable cultural and professional insights."
-                   data-pt="Passou um ano estudando em Michigan, EUA, aprimorando minhas habilidades em inglês e adquirindo valiosos conhecimentos culturais e profissionais.">
-                    Passou um ano estudando em Michigan, EUA, aprimorando minhas habilidades em inglês e adquirindo valiosos conhecimentos culturais e profissionais.
-                </p>
-            </div>
-            <!-- Adicione mais experiências conforme necessário -->
-        </div>
-    </section>
+<section id="projetos">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Projetos <em>reais</em></h2>
+  </div>
+  <div class="projects-grid">
 
-    <!-- Seção Educação -->
-    <section id="educacao">
-        <div class="container">
-            <h2 data-en="Education" data-pt="Educação">Educação</h2>
-            <li><strong>Curso de JavaScript</strong> - Curso em Video, 2024</li>
-            <li><strong>Curso de SQL</strong> - Curso em Video, 2024</li>
-            <li><strong>Curso Básico de API</strong> - Curso em Video, 2024</li>
-            <li><strong>Curso Básico de PHP</strong> - Curso em Video, 2024</li>
-            <li><strong>Gerenciamento de Armazenagem</strong> - ALB LOGISTICA, 2024</li>
-            <li><strong>Gestão de Estoque</strong> - ALB LOGISTICA, 2024</li>
-            <li><strong>Matemática Aplicada</strong> - Curso em Video, 2024</li>
+    <a href="#" class="project-card reveal">
+      <div>
+        <span class="project-highlight">Produto próprio</span>
+        <div class="project-meta"><span class="project-type">SaaS / Back-end</span><span class="project-year">2024–2025</span></div>
+        <h3 class="project-name">PreciZou</h3>
+        <p class="project-desc">Plataforma SaaS multi-tenant de precificação para pequenos negócios. Arquitetura completa do zero: autenticação JWT com refresh tokens, multi-tenancy com isolamento por workspace, integração com banco de dados via Prisma. Produto, design e código — tudo por conta própria.</p>
+        <div class="project-stack"><span class="stack-tag">Next.js</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Prisma</span><span class="stack-tag">MySQL</span><span class="stack-tag">JWT</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
-            </ul>
-        </div>
-    </section>
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Dados / Automação</span><span class="project-year">2024</span></div>
+        <h3 class="project-name">Pipeline ERP → Power BI</h3>
+        <p class="project-desc">Pipeline de dados automatizado que extrai informações do ERP Spalla, transforma e disponibiliza para dashboards em Power BI. Relatórios que a gestão da CMS Impex usa toda semana para tomada de decisão.</p>
+        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Power BI</span><span class="stack-tag">API REST</span><span class="stack-tag">ETL</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
-    <!-- Seção Contato -->
-    <section id="contato">
-        <div class="container">
-            <h2 data-en="Contact" data-pt="Contato">Contato</h2>
-            <form action="mailto:seu-email@example.com" method="post" enctype="text/plain">
-                <label for="nome" data-en="Name" data-pt="Nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required>
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Integração / Segurança</span><span class="project-year">2024</span></div>
+        <h3 class="project-name">Auditoria Automatizada de Estoque</h3>
+        <p class="project-desc">Sistema de auditoria com hashing SHA-256 para garantir integridade entre o estoque do ERP e o sistema de terceiros (operador logístico). Elimina divergências manuais e gera relatório de inconsistências automaticamente.</p>
+        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">SHA-256</span><span class="stack-tag">API REST</span><span class="stack-tag">MySQL</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
-                <label for="email" data-en="Email" data-pt="E-mail">E-mail:</label>
-                <input type="email" id="email" name="email" required>
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Integração de Pagamentos</span><span class="project-year">2025</span></div>
+        <h3 class="project-name">Webhook Mercado Pago — Encontro 2026</h3>
+        <p class="project-desc">Integração de pagamentos via webhook para sistema de inscrições de evento. Resolução de bugs críticos em escopo de variáveis PHP e query UPDATE que sobrescrevia registros incorretamente. Ambiente de produção, zero margem pra erro.</p>
+        <div class="project-stack"><span class="stack-tag">PHP</span><span class="stack-tag">MySQL</span><span class="stack-tag">Mercado Pago API</span><span class="stack-tag">Webhook</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
-                <label for="mensagem" data-en="Message" data-pt="Mensagem">Mensagem:</label>
-                <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Freelance / Front-end</span><span class="project-year">2025</span></div>
+        <h3 class="project-name">Landing Page — Imobiliária CCI</h3>
+        <p class="project-desc">Desenvolvimento de landing page para captação de leads imobiliários. Entrega com documento formal de aceite de escopo para garantir alinhamento e proteção das partes. Projeto freelance do início ao fim.</p>
+        <div class="project-stack"><span class="stack-tag">HTML/CSS</span><span class="stack-tag">JavaScript</span><span class="stack-tag">SEO</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
-                <button type="submit" data-en="Send" data-pt="Enviar">Enviar</button>
-            </form>
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/guilherme-fernandes-564059215/" target="_blank" data-en="LinkedIn" data-pt="LinkedIn">LinkedIn</a>
-                <a href="https://github.com/seu-usuario" target="_blank" data-en="GitHub" data-pt="GitHub">GitHub</a>
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Produto / Consultoria</span><span class="project-year">2025</span></div>
+        <h3 class="project-name">CorretorPro — CRM Imobiliário SaaS</h3>
+        <p class="project-desc">Proposta técnica completa de CRM SaaS para empresa de tráfego imobiliário pivotando para produto digital. Arquitetura, features, modelo de dados e roadmap — liberdade criativa e técnica totais. Do conceito ao documento de produto.</p>
+        <div class="project-stack"><span class="stack-tag">SaaS Architecture</span><span class="stack-tag">CRM</span><span class="stack-tag">Product Design</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
-            </div>
-        </div>
-    </section>
+  </div>
+</section>
 
-    <!-- Rodapé -->
-    <footer>
-        <div class="container">
-            <p data-en="© 2024 Guilherme Fernandes Claudino Costa. All rights reserved."
-               data-pt="© 2024 Guilherme Fernandes Claudino Costa. Todos os direitos reservados.">
-                © 2024 Guilherme Fernandes Claudino Costa. Todos os direitos reservados.
-            </p>
-        </div>
-    </footer>
+<section class="terminal-section">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Como <em>trabalho</em></h2>
+  </div>
+  <div class="terminal-window reveal">
+    <div class="terminal-bar">
+      <span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span>
+      <span class="terminal-title">gui@studio — ~/processo-de-trabalho</span>
+    </div>
+    <div class="terminal-body">
+      <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat processo.json</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-output">{</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"01_entendimento"</span>: <span class="t-string">"Escuto o problema real, não só o que foi pedido"</span>,</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"02_escopo"</span>: <span class="t-string">"Documento formal antes de começar — sem surpresas depois"</span>,</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"03_desenvolvimento"</span>: <span class="t-string">"Código limpo, comentado e sustentável"</span>,</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"04_comunicação"</span>: <span class="t-string">"Updates constantes — você nunca fica no escuro"</span>,</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"05_entrega"</span>: <span class="t-string">"Com documentação e suporte pós-entrega"</span></span></div>
+      <div class="t-line"><span class="t-output">}</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">echo $DIFERENCIAIS</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-comment"># Visão técnica + visão de negócio</span></div>
+      <div class="t-line"><span class="t-comment"># Experiência real em empresa, não só projetos pessoais</span></div>
+      <div class="t-line"><span class="t-comment"># Fundador de SaaS — entendo produto além do código</span></div>
+      <div class="t-blank"></div>
+      <div class="t-line"><span class="t-prompt">$</span><span class="cursor-blink"></span></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Script de Alternância de Idioma -->
-    <script src="language.js"></script>
+<section id="servicos">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">O que <em>entrego</em></h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">{/}</span>
+      <h3 class="service-name">APIs & Integrações</h3>
+      <p class="service-desc">Conexão entre sistemas, ERPs, plataformas de pagamento e ferramentas externas. Se tem documentação de API, dá pra integrar.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">⬡</span>
+      <h3 class="service-name">Automações & ETL</h3>
+      <p class="service-desc">Processos manuais viram automáticos. Dados do sistema A chegam limpos no sistema B. Scripts, pipelines e relatórios no piloto automático.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">◈</span>
+      <h3 class="service-name">Sistemas Web</h3>
+      <p class="service-desc">Landing pages, dashboards, sistemas internos e MVPs de SaaS. Do design ao deploy, com foco em resultado real.</p>
+    </div>
+  </div>
+
+  <div class="services-grid-wide">
+    <div class="service-card reveal" style="border-left:2px solid var(--accent)">
+      <span class="service-icon">◎</span>
+      <h3 class="service-name">Regras de Negócio & Modelagem</h3>
+      <p class="service-desc">Antes de escrever uma linha de código, entendo <span style="color:var(--text)">como o seu negócio funciona</span>. Mapeio fluxos, identifico gargalos, modelo dados e traduzo processos complexos em lógica de sistema — sem perder a realidade de quem vai usar no dia a dia.</p>
+      <p class="service-desc" style="margin-top:1rem">Experiência real com operações de comércio exterior, logística e distribuição, atendimento a clientes e relatórios gerenciais. Falo o idioma da TI <span style="color:var(--text)">e</span> o idioma do gestor.</p>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon" style="font-size:1.1rem;letter-spacing:.05em">// insight</span>
+      <p class="service-desc" style="font-size:15px;line-height:2;margin-top:.5rem">
+        A maioria dos problemas técnicos<br>tem uma causa no processo.<br><br>
+        <span style="color:var(--text)">Eu resolvo os dois.</span>
+      </p>
+      <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:8px">
+        <span class="stack-tag">Modelagem de dados</span>
+        <span class="stack-tag">Mapeamento de processos</span>
+        <span class="stack-tag">Fluxos de aprovação</span>
+        <span class="stack-tag">Regras de precificação</span>
+        <span class="stack-tag">Comércio exterior</span>
+        <span class="stack-tag">Gestão de estoque</span>
+        <span class="stack-tag">Relatórios gerenciais</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="contact-layout">
+    <div class="reveal">
+      <h2 class="contact-heading">Tem um<br><em>projeto?</em><br>Fala comigo.</h2>
+      <p class="contact-sub">Respondo rápido. Não cobro por orçamento. Conta o que você precisa e a gente vê se faz sentido.</p>
+    </div>
+    <div class="contact-links reveal">
+      <a href="mailto:guilhermefernandes995@gmail.com" class="contact-link">
+        <div class="contact-link-inner"><span class="contact-link-label">E-mail</span><span class="contact-link-value">guilhermefernandes995@gmail.com</span></div>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="https://linkedin.com/in/guilherme-fernandes-564059215" target="_blank" class="contact-link">
+        <div class="contact-link-inner"><span class="contact-link-label">LinkedIn</span><span class="contact-link-value">/in/guilherme-fernandes-564059215</span></div>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="https://github.com/Guife77" target="_blank" class="contact-link">
+        <div class="contact-link-inner"><span class="contact-link-label">GitHub</span><span class="contact-link-value">github.com/Guife77</span></div>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+      <a href="https://precizou.com.br" target="_blank" class="contact-link">
+        <div class="contact-link-inner"><span class="contact-link-label">Produto próprio</span><span class="contact-link-value">precizou.com.br</span></div>
+        <span class="contact-link-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2025 Gui Fernandes — São Paulo, BR</span>
+  <span class="footer-built">built with <span>♥</span> and too much coffee</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=(mx-6)+'px';cursor.style.top=(my-6)+'px'});
+  (function animRing(){rx+=(mx-rx-18)*.12;ry+=(my-ry-18)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2)';ring.style.transform='scale(1.5)'});
+    el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.transform='scale(1)'});
+  });
+
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+
+  const toggle=document.getElementById('navToggle');
+  const mobileMenu=document.getElementById('mobileMenu');
+  toggle.addEventListener('click',()=>{
+    const open=mobileMenu.classList.toggle('open');
+    toggle.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  });
+  function closeMenu(){mobileMenu.classList.remove('open');toggle.classList.remove('open');document.body.style.overflow='';}
+
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach((entry,i)=>{if(entry.isIntersecting)setTimeout(()=>entry.target.classList.add('visible'),i*80)});
+  },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>
