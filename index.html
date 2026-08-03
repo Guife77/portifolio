@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gui Fernandes — Desenvolvedor & Analista de Sistemas</title>
+<title>Gui Fernandes | Desenvolvedor & Analista de Sistemas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300;1,9..144,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -49,7 +49,7 @@
   .hero-desc strong { color:var(--text);font-weight:400; }
   .hero-actions { margin-top:3rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .8s forwards; }
 
-  .btn-primary { font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#0a0a0a;padding:14px 28px;border:none;text-decoration:none;display:inline-block;font-weight:500;transition:transform .2s,box-shadow .2s; }
+  .btn-primary { font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#0a0a0a;padding:14px 28px;border:none;text-decoration:none;display:inline-block;font-weight:500;transition:transform .2s,box-shadow .2s;cursor:pointer; }
   .btn-primary:hover { transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--accent2); }
   .btn-ghost { font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .2s; }
   .btn-ghost:hover { color:var(--text); }
@@ -95,6 +95,7 @@
   .project-arrow { font-family:'DM Mono',monospace;font-size:1.5rem;color:var(--muted);transition:color .2s,transform .2s;padding-top:.5rem;align-self:start; }
   .project-card:hover .project-arrow { color:var(--accent);transform:translate(4px,-4px); }
   .project-highlight { display:inline-block;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#0a0a0a;background:var(--accent);padding:3px 8px;margin-bottom:1rem; }
+  .project-highlight.outline { color:var(--accent);background:transparent;border:1px solid var(--accent); }
 
   .services-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:1px; }
   .services-grid-wide { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border); }
@@ -114,10 +115,10 @@
   .t-line{display:flex;gap:.75rem;white-space:nowrap}.t-prompt{color:var(--accent)}.t-cmd{color:var(--text)}.t-comment{color:var(--muted)}.t-output{color:#7ab8ff;margin-left:1rem}.t-string{color:var(--accent2)}.t-key{color:#ff7eb6}.t-blank{height:1rem}
   .cursor-blink { display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:middle;animation:blink 1s step-end infinite; }
 
-  .contact-layout { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center; }
+  .contact-layout { display:grid;grid-template-columns:1.2fr .8fr;gap:6rem;align-items:start; }
   .contact-heading { font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,4rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:var(--text); }
   .contact-heading em { font-style:italic;font-weight:300;color:var(--accent); }
-  .contact-sub { font-size:16px;font-weight:300;color:var(--muted);margin-top:1.5rem;line-height:1.8; }
+  .contact-sub { font-size:16px;font-weight:300;color:var(--muted);margin-top:1.5rem;line-height:1.8;max-width:480px; }
   .contact-links { display:flex;flex-direction:column;gap:1.5rem; }
   .contact-link { display:flex;align-items:center;justify-content:space-between;padding:1.5rem;border:1px solid var(--border);text-decoration:none;color:var(--muted);transition:border-color .2s,color .2s,background .2s;gap:1rem; }
   .contact-link:hover { border-color:var(--accent);color:var(--text);background:var(--bg2); }
@@ -126,6 +127,24 @@
   .contact-link-value { font-size:15px;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
   .contact-link-arrow { font-size:1.2rem;transition:transform .2s;flex-shrink:0; }
   .contact-link:hover .contact-link-arrow { transform:translate(4px,-4px); }
+
+  /* Formulário de orçamento */
+  .orcamento-form { margin-top:2.5rem;display:flex;flex-direction:column;gap:1.5rem; }
+  .form-row { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem; }
+  .form-group { display:flex;flex-direction:column;gap:.6rem; }
+  .form-label { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent); }
+  .form-input, .form-select, .form-textarea {
+    width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);
+    font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;padding:13px 14px;
+    border-radius:2px;transition:border-color .2s;appearance:none;
+  }
+  .form-select { cursor:pointer; }
+  .form-textarea { resize:vertical;min-height:110px;line-height:1.6; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { outline:none;border-color:var(--accent); }
+  .form-input::placeholder, .form-textarea::placeholder { color:var(--muted); }
+  .form-submit { align-self:flex-start;display:inline-flex;align-items:center;gap:8px; }
+  .form-note { font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:-.5rem; }
+  .form-status { font-family:'DM Mono',monospace;font-size:12px;color:var(--accent2);min-height:1em; }
 
   footer { padding:2rem var(--px);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem; }
   .footer-copy,.footer-built { font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.05em; }
@@ -162,6 +181,7 @@
     .services-grid-wide{grid-template-columns:1fr}
     .terminal-body{font-size:11px;padding:1.5rem}
     .contact-layout{grid-template-columns:1fr;gap:3rem}
+    .form-row{grid-template-columns:1fr}
     footer{flex-direction:column;text-align:center}
     section{padding:5rem var(--px)}
     .section-header{margin-bottom:3rem}
@@ -173,7 +193,7 @@
     .hero{padding:6rem var(--px) 5rem}
     .hero-desc{font-size:15px}
     .hero-actions{gap:1rem}
-    .btn-primary{padding:12px 20px;width:100%;text-align:center}
+    .btn-primary{padding:12px 20px;width:100%;text-align:center;justify-content:center}
     .btn-ghost{width:100%;justify-content:center}
     .services-grid{grid-template-columns:1fr}
     .service-card{padding:2rem 1.5rem}
@@ -183,6 +203,8 @@
     .project-desc{max-width:100%}
     .contact-link{padding:1rem}
     .contact-link-value{font-size:13px}
+    .orcamento-form{margin-top:2rem}
+    .form-submit{width:100%;justify-content:center}
     section{padding:4rem var(--px)}
     .section-header{margin-bottom:2.5rem;flex-wrap:wrap}
     .terminal-body{font-size:10px;padding:1rem;line-height:1.8}
@@ -228,8 +250,9 @@
   <h1 class="hero-name">Gui<br><em>Fernandes</em></h1>
   <p class="hero-desc">
     Desenvolvedor back-end &amp; analista de sistemas em São Paulo.
-    Construo <strong>integrações, automações e sistemas</strong> que realmente funcionam —
-    do ERP ao SaaS, da API ao relatório que o gestor vai entender.
+    Do <strong>site institucional</strong> ao <strong>painel de gestão</strong>, da automação simples
+    à integração complexa entre sistemas: entendo o problema antes de escrever a primeira linha
+    de código, e entrego a solução do tamanho certo pra ele.
   </p>
   <div class="hero-actions">
     <a href="#projetos" class="btn-primary">Ver projetos</a>
@@ -237,8 +260,8 @@
   </div>
   <div class="hero-stats">
     <div class="stat-item"><div class="stat-number">2+</div><div class="stat-label">ano em TI</div></div>
-    <div class="stat-item"><div class="stat-number">5+</div><div class="stat-label">projetos entregues</div></div>
-    <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">café consumido</div></div>
+    <div class="stat-item"><div class="stat-number">8+</div><div class="stat-label">projetos reais</div></div>
+    <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">Limoneto consumido</div></div>
   </div>
   <div class="scroll-hint"><div class="scroll-line"></div><span class="scroll-text">scroll</span></div>
 </section>
@@ -250,8 +273,8 @@
   </div>
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>Sou analista de sistemas e desenvolvedor back-end baseado em São Paulo. Atuo como <strong>o único profissional de TI da CMS Impex</strong>, onde gerencio desde a infraestrutura Microsoft 365 até integrações com ERP e pipelines de dados para Power BI.</p>
-      <p>Paralelamente, curso <strong>Ciência da Computação na UNIP</strong> e desenvolvo o <strong>PreciZou</strong>, um SaaS multi-tenant de precificação para pequenos negócios que estou construindo do zero — arquitetura, produto e código.</p>
+      <p>Sou analista de sistemas e desenvolvedor back-end baseado em São Paulo. Atuo como <strong>o único profissional de TI da CMS Impex</strong>, onde cuido de tudo, da infraestrutura Microsoft 365 a integrações com ERP e pipelines de dados estratégicos. Também curso <strong>Ciência da Computação na UNIP</strong>.</p>
+      <p>Meu diferencial não é só código: é <strong>entender o problema antes de sair implementando</strong>. Sou flexível pro tamanho do projeto, de um site institucional simples a uma integração complexa entre sistemas: o que importa é resolver o que o seu negócio realmente precisa.</p>
       <p>Para clientes freelance, entrego <strong>soluções técnicas com visão de negócio</strong>: não só o que você pediu, mas o que vai realmente resolver o problema.</p>
     </div>
     <div class="skills-panel reveal">
@@ -278,7 +301,7 @@
       <div class="skill-category">
         <p class="skill-cat-name">Outros</p>
         <div class="skill-tags">
-          <span class="tag">Git</span><span class="tag">SaaS Architecture</span><span class="tag">Java</span><span class="tag">Mercado Pago API</span>
+          <span class="tag">Git</span><span class="tag">Arquitetura de Sistemas</span><span class="tag">Java</span><span class="tag">Mercado Pago API</span>
         </div>
       </div>
     </div>
@@ -294,18 +317,69 @@
 
     <a href="#" class="project-card reveal">
       <div>
-        <span class="project-highlight">Produto próprio</span>
-        <div class="project-meta"><span class="project-type">SaaS / Back-end</span><span class="project-year">2024–2025</span></div>
-        <h3 class="project-name">PreciZou</h3>
-        <p class="project-desc">Plataforma SaaS multi-tenant de precificação para pequenos negócios. Arquitetura completa do zero: autenticação JWT com refresh tokens, multi-tenancy com isolamento por workspace, integração com banco de dados via Prisma. Produto, design e código — tudo por conta própria.</p>
-        <div class="project-stack"><span class="stack-tag">Next.js</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Prisma</span><span class="stack-tag">MySQL</span><span class="stack-tag">JWT</span></div>
+        <span class="project-highlight">Projeto de destaque</span>
+        <div class="project-meta"><span class="project-type">Painel / Arquitetura</span><span class="project-year">CMS Impex · 2024–2025</span></div>
+        <h3 class="project-name">Painel de Controle</h3>
+        <p class="project-desc">Um local onde sua empresa não vê apenas dados, mas números que trazem estratégia e direção para o crescimento. Sistema web proprietário que reúne KPIs financeiros e comerciais, aging de contas a receber/pagar, fluxo de caixa projetado e análise de risco de concentração. Tudo num único painel que a gestão usa pra decisão real, sem depender de planilha paralela.</p>
+        <div class="project-stack"><span class="stack-tag">Node.js</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Dados Estratégicos</span><span class="stack-tag">REST APIs</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+
+    <a href="https://eusoumensageiros.com.br/" target="_blank" rel="noopener" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Site completo / Sistema</span><span class="project-year">2025–2026</span></div>
+        <h3 class="project-name">Mensageiros da Palavra</h3>
+        <p class="project-desc">Criação completa do site institucional do Mensageiros da Palavra, do design às páginas de políticas, incluindo o sistema de gestão de inscrições para eventos com centenas de participantes e a integração de pagamento via Mercado Pago, do cadastro à confirmação, sem controle manual em planilha. Projeto em produção, mantido e evoluído junto com o crescimento dos eventos.</p>
+        <div class="project-stack"><span class="stack-tag">Site Institucional</span><span class="stack-tag">PHP</span><span class="stack-tag">MySQL</span><span class="stack-tag">Mercado Pago API</span></div>
       </div>
       <div class="project-arrow">↗</div>
     </a>
 
     <a href="#" class="project-card reveal">
       <div>
-        <div class="project-meta"><span class="project-type">Dados / Automação</span><span class="project-year">2024</span></div>
+        <div class="project-meta"><span class="project-type">Site leve</span><span class="project-year">2025</span></div>
+        <h3 class="project-name">Landing Page: Imobiliária CCI</h3>
+        <p class="project-desc">Desenvolvimento de landing page para captação de leads imobiliários. Entrega com documento formal de aceite de escopo para garantir alinhamento e proteção das partes. Projeto freelance do início ao fim.</p>
+        <div class="project-stack"><span class="stack-tag">HTML/CSS</span><span class="stack-tag">JavaScript</span><span class="stack-tag">SEO</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Jogo / Experiência Interativa</span><span class="project-year">CMS Impex · Marbow · Bentomar</span></div>
+        <h3 class="project-name">Jogos para Feiras e Eventos</h3>
+        <p class="project-desc">Jogos interativos em kiosk para estandes em feiras de exposição, desenvolvidos para três empresas diferentes. Objetivo: mais engajamento do público no estande e captação de lead qualificado, usando brinde como gatilho de participação. Cada jogo pensado como ferramenta de resultado, não só entretenimento.</p>
+        <div class="project-stack"><span class="stack-tag">Kiosk</span><span class="stack-tag">Geração de Leads</span><span class="stack-tag">Engajamento</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Arquitetura / Integração</span><span class="project-year">CMS Impex · 2026</span></div>
+        <h3 class="project-name">Integração LogManager × Spalla</h3>
+        <p class="project-desc">Arquitetura de integração entre o ERP (Spalla) e a API do LogManager/LogComex para rastreamento automático de embarques: status, prazos e eventos aduaneiros direto no processo, sem consulta manual em múltiplos sistemas. Da análise de gap entre o que a API oferecia e o que o fornecedor entregava, até a definição dos critérios de aceite técnico.</p>
+        <div class="project-stack"><span class="stack-tag">REST API</span><span class="stack-tag">Integração de ERP</span><span class="stack-tag">Análise de API</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+
+    <a href="#" class="project-card reveal">
+      <div>
+        <span class="project-highlight outline">Proposta técnica, não implementado</span>
+        <div class="project-meta"><span class="project-type">Estratégia / Arquitetura</span><span class="project-year">2025</span></div>
+        <h3 class="project-name">CorretorPro: Arquitetura de CRM Imobiliário</h3>
+        <p class="project-desc">Proposta técnica e arquitetura completa de CRM SaaS para empresa de tráfego imobiliário migrando para produto digital. Modelo de dados, features e roadmap definidos do zero.</p>
+        <div class="project-stack"><span class="stack-tag">SaaS Architecture</span><span class="stack-tag">Product Design</span><span class="stack-tag">Modelagem de Dados</span></div>
+      </div>
+      <div class="project-arrow">↗</div>
+    </a>
+
+    <a href="#" class="project-card reveal">
+      <div>
+        <div class="project-meta"><span class="project-type">Automação</span><span class="project-year">CMS Impex · 2024</span></div>
         <h3 class="project-name">Pipeline ERP → Power BI</h3>
         <p class="project-desc">Pipeline de dados automatizado que extrai informações do ERP Spalla, transforma e disponibiliza para dashboards em Power BI. Relatórios que a gestão da CMS Impex usa toda semana para tomada de decisão.</p>
         <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Power BI</span><span class="stack-tag">API REST</span><span class="stack-tag">ETL</span></div>
@@ -315,40 +389,10 @@
 
     <a href="#" class="project-card reveal">
       <div>
-        <div class="project-meta"><span class="project-type">Integração / Segurança</span><span class="project-year">2024</span></div>
-        <h3 class="project-name">Auditoria Automatizada de Estoque</h3>
-        <p class="project-desc">Sistema de auditoria com hashing SHA-256 para garantir integridade entre o estoque do ERP e o sistema de terceiros (operador logístico). Elimina divergências manuais e gera relatório de inconsistências automaticamente.</p>
+        <div class="project-meta"><span class="project-type">Automação / Auditoria</span><span class="project-year">CMS Impex · 2024</span></div>
+        <h3 class="project-name">Auditoria de Integridade: ERP vs. Armazém Terceirizado</h3>
+        <p class="project-desc">Sistema de auditoria com hashing SHA-256 para garantir integridade entre o estoque registrado no ERP e o estoque no sistema do operador logístico terceirizado. Elimina divergência manual e gera relatório de inconsistência automaticamente.</p>
         <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">SHA-256</span><span class="stack-tag">API REST</span><span class="stack-tag">MySQL</span></div>
-      </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
-    <a href="#" class="project-card reveal">
-      <div>
-        <div class="project-meta"><span class="project-type">Integração de Pagamentos</span><span class="project-year">2025</span></div>
-        <h3 class="project-name">Webhook Mercado Pago — Encontro 2026</h3>
-        <p class="project-desc">Integração de pagamentos via webhook para sistema de inscrições de evento. Resolução de bugs críticos em escopo de variáveis PHP e query UPDATE que sobrescrevia registros incorretamente. Ambiente de produção, zero margem pra erro.</p>
-        <div class="project-stack"><span class="stack-tag">PHP</span><span class="stack-tag">MySQL</span><span class="stack-tag">Mercado Pago API</span><span class="stack-tag">Webhook</span></div>
-      </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
-    <a href="#" class="project-card reveal">
-      <div>
-        <div class="project-meta"><span class="project-type">Freelance / Front-end</span><span class="project-year">2025</span></div>
-        <h3 class="project-name">Landing Page — Imobiliária CCI</h3>
-        <p class="project-desc">Desenvolvimento de landing page para captação de leads imobiliários. Entrega com documento formal de aceite de escopo para garantir alinhamento e proteção das partes. Projeto freelance do início ao fim.</p>
-        <div class="project-stack"><span class="stack-tag">HTML/CSS</span><span class="stack-tag">JavaScript</span><span class="stack-tag">SEO</span></div>
-      </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
-    <a href="#" class="project-card reveal">
-      <div>
-        <div class="project-meta"><span class="project-type">Produto / Consultoria</span><span class="project-year">2025</span></div>
-        <h3 class="project-name">CorretorPro — CRM Imobiliário SaaS</h3>
-        <p class="project-desc">Proposta técnica completa de CRM SaaS para empresa de tráfego imobiliário pivotando para produto digital. Arquitetura, features, modelo de dados e roadmap — liberdade criativa e técnica totais. Do conceito ao documento de produto.</p>
-        <div class="project-stack"><span class="stack-tag">SaaS Architecture</span><span class="stack-tag">CRM</span><span class="stack-tag">Product Design</span></div>
       </div>
       <div class="project-arrow">↗</div>
     </a>
@@ -364,16 +408,16 @@
   <div class="terminal-window reveal">
     <div class="terminal-bar">
       <span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span>
-      <span class="terminal-title">gui@studio — ~/processo-de-trabalho</span>
+      <span class="terminal-title">gui@studio:~/processo-de-trabalho</span>
     </div>
     <div class="terminal-body">
       <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat processo.json</span></div>
       <div class="t-blank"></div>
       <div class="t-line"><span class="t-output">{</span></div>
       <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"01_entendimento"</span>: <span class="t-string">"Escuto o problema real, não só o que foi pedido"</span>,</span></div>
-      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"02_escopo"</span>: <span class="t-string">"Documento formal antes de começar — sem surpresas depois"</span>,</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"02_escopo"</span>: <span class="t-string">"Documento formal antes de começar, sem surpresas depois"</span>,</span></div>
       <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"03_desenvolvimento"</span>: <span class="t-string">"Código limpo, comentado e sustentável"</span>,</span></div>
-      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"04_comunicação"</span>: <span class="t-string">"Updates constantes — você nunca fica no escuro"</span>,</span></div>
+      <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"04_comunicação"</span>: <span class="t-string">"Updates constantes, você nunca fica no escuro"</span>,</span></div>
       <div class="t-line"><span class="t-output">&nbsp;&nbsp;<span class="t-key">"05_entrega"</span>: <span class="t-string">"Com documentação e suporte pós-entrega"</span></span></div>
       <div class="t-line"><span class="t-output">}</span></div>
       <div class="t-blank"></div>
@@ -381,7 +425,7 @@
       <div class="t-blank"></div>
       <div class="t-line"><span class="t-comment"># Visão técnica + visão de negócio</span></div>
       <div class="t-line"><span class="t-comment"># Experiência real em empresa, não só projetos pessoais</span></div>
-      <div class="t-line"><span class="t-comment"># Fundador de SaaS — entendo produto além do código</span></div>
+      <div class="t-line"><span class="t-comment"># Entendo o problema antes do código, flexível pro tamanho do projeto</span></div>
       <div class="t-blank"></div>
       <div class="t-line"><span class="t-prompt">$</span><span class="cursor-blink"></span></div>
     </div>
@@ -407,8 +451,8 @@
     </div>
     <div class="service-card reveal">
       <span class="service-icon">◈</span>
-      <h3 class="service-name">Sistemas Web</h3>
-      <p class="service-desc">Landing pages, dashboards, sistemas internos e MVPs de SaaS. Do design ao deploy, com foco em resultado real.</p>
+      <h3 class="service-name">Sites & Sistemas Web</h3>
+      <p class="service-desc">De um site institucional a um dashboard ou MVP. Do design ao deploy, com foco em resultado real: pequeno ou grande, do jeito que o problema pedir.</p>
     </div>
   </div>
 
@@ -416,7 +460,7 @@
     <div class="service-card reveal" style="border-left:2px solid var(--accent)">
       <span class="service-icon">◎</span>
       <h3 class="service-name">Regras de Negócio & Modelagem</h3>
-      <p class="service-desc">Antes de escrever uma linha de código, entendo <span style="color:var(--text)">como o seu negócio funciona</span>. Mapeio fluxos, identifico gargalos, modelo dados e traduzo processos complexos em lógica de sistema — sem perder a realidade de quem vai usar no dia a dia.</p>
+      <p class="service-desc">Antes de escrever uma linha de código, entendo <span style="color:var(--text)">como o seu negócio funciona</span>. Mapeio fluxos, identifico gargalos, modelo dados e traduzo processos complexos em lógica de sistema, sem perder a realidade de quem vai usar no dia a dia.</p>
       <p class="service-desc" style="margin-top:1rem">Experiência real com operações de comércio exterior, logística e distribuição, atendimento a clientes e relatórios gerenciais. Falo o idioma da TI <span style="color:var(--text)">e</span> o idioma do gestor.</p>
     </div>
     <div class="service-card reveal">
@@ -442,8 +486,35 @@
   <div class="contact-layout">
     <div class="reveal">
       <h2 class="contact-heading">Tem um<br><em>projeto?</em><br>Fala comigo.</h2>
-      <p class="contact-sub">Respondo rápido. Não cobro por orçamento. Conta o que você precisa e a gente vê se faz sentido.</p>
+      <p class="contact-sub">Preenche rapidinho e o pedido já cai formatado no meu WhatsApp. Não cobro por orçamento. Conta o que você precisa e a gente vê se faz sentido.</p>
+
+      <form id="orcamentoForm" class="orcamento-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="orcNome">Seu nome</label>
+            <input class="form-input" type="text" id="orcNome" placeholder="Como posso te chamar" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="orcTipo">Tipo de projeto</label>
+            <select class="form-select" id="orcTipo" required>
+              <option value="" disabled selected>Selecione</option>
+              <option value="Site institucional / landing page">Site institucional / landing page</option>
+              <option value="Sistema ou automação">Sistema ou automação</option>
+              <option value="Integração entre sistemas / API">Integração entre sistemas / API</option>
+              <option value="Painel ou dashboard">Painel ou dashboard</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="orcDesc">Conta rapidamente o que você precisa</label>
+          <textarea class="form-textarea" id="orcDesc" placeholder="Ex: preciso de um site pra minha loja, com catálogo de produtos e botão de WhatsApp" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary form-submit">Enviar no WhatsApp ↗</button>
+        <p class="form-status" id="formStatus"></p>
+      </form>
     </div>
+
     <div class="contact-links reveal">
       <a href="mailto:guilhermefernandes995@gmail.com" class="contact-link">
         <div class="contact-link-inner"><span class="contact-link-label">E-mail</span><span class="contact-link-value">guilhermefernandes995@gmail.com</span></div>
@@ -457,17 +528,12 @@
         <div class="contact-link-inner"><span class="contact-link-label">GitHub</span><span class="contact-link-value">github.com/Guife77</span></div>
         <span class="contact-link-arrow">↗</span>
       </a>
-      <a href="https://precizou.com.br" target="_blank" class="contact-link">
-        <div class="contact-link-inner"><span class="contact-link-label">Produto próprio</span><span class="contact-link-value">precizou.com.br</span></div>
-        <span class="contact-link-arrow">↗</span>
-      </a>
     </div>
   </div>
 </section>
 
 <footer>
-  <span class="footer-copy">© 2025 Gui Fernandes — São Paulo, BR</span>
-  <span class="footer-built">built with <span>♥</span> and too much coffee</span>
+  <span class="footer-copy">© 2026 Gui Fernandes, São Paulo, BR</span>
 </footer>
 
 <script>
@@ -497,6 +563,33 @@
     entries.forEach((entry,i)=>{if(entry.isIntersecting)setTimeout(()=>entry.target.classList.add('visible'),i*80)});
   },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // ── Formulário de orçamento → WhatsApp ──
+  // TODO(Gui): troca pelo seu número real, formato DDI+DDD+número, sem espaços/símbolos.
+  // Exemplo: 5511987654321
+  const NUMERO_WHATSAPP = '5511944585258';
+
+  document.getElementById('orcamentoForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nome = document.getElementById('orcNome').value.trim();
+    const tipo = document.getElementById('orcTipo').value;
+    const desc = document.getElementById('orcDesc').value.trim();
+    const status = document.getElementById('formStatus');
+
+    if (!nome || !tipo || !desc) {
+      status.textContent = 'Preenche todos os campos antes de enviar.';
+      return;
+    }
+
+    const mensagem =
+      `Olá, Gui! Me chamo ${nome}.\n\n` +
+      `Tipo de projeto: ${tipo}\n\n` +
+      `${desc}`;
+
+    const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+    status.textContent = 'Abrindo o WhatsApp…';
+  });
 </script>
 </body>
 </html>
