@@ -80,10 +80,17 @@
   .btn-ghost:hover { color:var(--text); }
   .btn-ghost::after { content:'→'; }
 
-  .hero-stats { position:absolute;right:var(--px);bottom:4rem;display:flex;flex-direction:column;gap:2rem;opacity:0;animation:fadeUp .8s 1s forwards; }
-  .stat-item { text-align:right; }
-  .stat-number { font-family:'Fraunces',serif;font-size:2.5rem;font-weight:700;color:var(--text);line-height:1; }
-  .stat-label { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:4px; }
+  .hero-2col { display:grid;grid-template-columns:1.05fr .95fr;gap:5rem;align-items:center; }
+  .hero-2col .hero-name { font-size:clamp(3rem,7vw,6.4rem); }
+  .hero-2col .hero-desc { max-width:100%; }
+  .hero-proof { opacity:0;animation:fadeUp .8s 1s forwards; }
+  .proof-label { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem; }
+  .proof-card { display:block;border:1px solid var(--border);border-left:2px solid var(--accent);padding:1.25rem 1.5rem;margin-bottom:.75rem;text-decoration:none;background:var(--bg2);transition:background .25s,border-color .25s; }
+  .proof-card:hover { background:var(--bg3);border-color:var(--muted);border-left-color:var(--accent); }
+  .proof-tag { display:block;font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.45rem; }
+  .proof-name { display:block;font-family:'Fraunces',serif;font-size:1.28rem;font-weight:700;color:var(--text);letter-spacing:-.01em;margin-bottom:.3rem; }
+  .proof-note { display:block;font-size:12.5px;font-weight:300;color:var(--muted);line-height:1.6; }
+  .proof-foot { display:flex;flex-wrap:wrap;gap:.6rem 2rem;margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--border);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted); }
 
   .scroll-hint { position:absolute;bottom:2rem;left:var(--px);display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp .8s 1.2s forwards; }
   .scroll-line { width:40px;height:1px;background:var(--muted); }
@@ -115,7 +122,7 @@
   .project-card[hidden] { display:none; }
   @media (max-width:640px) { .project-filters { margin-top:-1.5rem; } .filter-btn { font-size:10px;padding:.5rem .7rem; } }
   .projects-grid { display:grid;gap:1px;background:var(--border); }
-  .project-card { background:var(--bg);padding:3rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;transition:background .3s;text-decoration:none;color:inherit;position:relative;overflow:hidden; }
+  .project-card { scroll-margin-top:130px;background:var(--bg);padding:3rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;transition:background .3s;text-decoration:none;color:inherit;position:relative;overflow:hidden; }
   .project-card::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent) 0%,transparent 60%);opacity:0;transition:opacity .4s; }
   .project-card:hover::before { opacity:.03; }
   .project-card:hover { background:var(--bg2); }
@@ -207,9 +214,8 @@
     .nav-links{display:none}
     .nav-toggle{display:flex}
     .hero{padding:7rem var(--px) 6rem}
-    .hero-stats{position:static;flex-direction:row;flex-wrap:wrap;gap:1.5rem;margin-top:3rem;animation:fadeUp .8s 1s forwards}
-    .stat-item{text-align:left}
-    .stat-number{font-size:2rem}
+    .hero-2col{grid-template-columns:1fr;gap:2.5rem;align-items:start;align-content:start}
+    .hero-2col .hero-name{font-size:clamp(2.8rem,13vw,4rem)}
     .scroll-hint{display:none}
     .about-grid{grid-template-columns:1fr;gap:3rem}
     .about-text p{font-size:16px}
@@ -312,24 +318,41 @@
   </button>
 </nav>
 
-<section class="hero">
-  <p class="hero-tag">// disponível para projetos freelance</p>
-  <h1 class="hero-name">Gui<br><em>Fernandes</em></h1>
-  <p class="hero-desc">
-    Desenvolvedor back-end &amp; analista de sistemas em São Paulo.
-    Do <strong>site institucional</strong> ao <strong>painel de gestão</strong>, da automação simples
-    à integração complexa entre sistemas: entendo o problema antes de escrever a primeira linha
-    de código, e entrego a solução do tamanho certo pra ele.
-  </p>
-  <div class="hero-actions">
-    <a href="#projetos" class="btn-primary">Ver projetos</a>
-    <a href="#contato" class="btn-ghost">Falar comigo</a>
+<section class="hero hero-2col">
+  <div class="hero-col">
+    <p class="hero-tag">// disponível para projetos freelance</p>
+    <h1 class="hero-name">Gui<br><em>Fernandes</em></h1>
+    <p class="hero-desc">
+      Sites, painéis e integrações que <strong>resolvem problema de negócio</strong>.
+      Desenvolvedor back-end e analista de sistemas em São Paulo: entendo o problema
+      antes de escrever a primeira linha de código.
+    </p>
+    <div class="hero-actions">
+      <a href="#projetos" class="btn-primary">Ver projetos</a>
+      <a href="#contato" class="btn-ghost">Falar comigo</a>
+    </div>
   </div>
-  <div class="hero-stats">
-    <div class="stat-item"><div class="stat-number">2+</div><div class="stat-label">ano em TI</div></div>
-    <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">projetos reais</div></div>
-    <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">Limoneto consumido</div></div>
-  </div>
+
+  <aside class="hero-proof" aria-label="Projetos em destaque">
+    <p class="proof-label">// no ar agora</p>
+    <a class="proof-card" href="#proj-mensageiros">
+      <span class="proof-tag">Site + sistema</span>
+      <span class="proof-name">Mensageiros da Palavra</span>
+      <span class="proof-note">Inscrições e pagamento para eventos com centenas de participantes.</span>
+    </a>
+    <a class="proof-card" href="#proj-nyelu">
+      <span class="proof-tag">SaaS em produção</span>
+      <span class="proof-name">Nyelu</span>
+      <span class="proof-note">Plataforma multiempresa de gestão. Atuação no time técnico.</span>
+    </a>
+    <a class="proof-card" href="#proj-cci">
+      <span class="proof-tag">Landing page</span>
+      <span class="proof-name">Imobiliária CCI</span>
+      <span class="proof-note">Captação de leads, do escopo ao aceite formal.</span>
+    </a>
+    <div class="proof-foot"><span>10+ projetos reais</span><span>2+ anos em TI</span><span>∞ Limoneto</span></div>
+  </aside>
+
   <div class="scroll-hint"><div class="scroll-line"></div><span class="scroll-text">scroll</span></div>
 </section>
 
@@ -388,7 +411,7 @@
   </div>
 
   <div class="projects-grid">
-    <a href="https://eusoumensageiros.com.br/" target="_blank" rel="noopener" class="project-card reveal" data-cat="site">
+    <a href="https://eusoumensageiros.com.br/" target="_blank" rel="noopener" id="proj-mensageiros" class="project-card reveal" data-cat="site">
       <div>
         <span class="project-highlight">No ar · projeto de destaque</span>
         <div class="project-meta"><span class="project-type">Site completo / Sistema</span><span class="project-year">2025–2026</span></div>
@@ -399,7 +422,7 @@
       <div class="project-arrow">↗</div>
     </a>
 
-    <div class="project-card static reveal" data-cat="site">
+    <div id="proj-cci" class="project-card static reveal" data-cat="site">
       <div>
         <div class="project-meta"><span class="project-type">Site leve</span><span class="project-year">2025</span></div>
         <h3 class="project-name">Landing Page: Imobiliária CCI</h3>
@@ -408,7 +431,7 @@
       </div>
     </div>
 
-    <div class="project-card static reveal" data-cat="sistema">
+    <div id="proj-nyelu" class="project-card static reveal" data-cat="sistema">
       <div>
         <span class="project-highlight outline">Atuação atual · startup</span>
         <div class="project-meta"><span class="project-type">SaaS / Plataforma multiempresa</span><span class="project-year">Nyelu · 2026</span></div>
