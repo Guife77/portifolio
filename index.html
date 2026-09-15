@@ -80,11 +80,23 @@
   .tag { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--muted);background:var(--tag-bg);border:1px solid var(--border);padding:5px 12px;border-radius:2px;transition:color .2s,border-color .2s; }
   .tag:hover { color:var(--text);border-color:var(--muted); }
 
+  .project-filters { display:flex;flex-wrap:wrap;gap:.5rem;margin:-3rem 0 2.5rem; }
+  .filter-btn { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);background:transparent;border:1px solid var(--border);padding:.55rem 1rem;border-radius:1px;
+    cursor:pointer;transition:color .2s,border-color .2s,background .2s; }
+  .filter-btn:hover { color:var(--text);border-color:var(--muted); }
+  .filter-btn[aria-pressed="true"] { color:#0a0a0a;background:var(--accent);border-color:var(--accent); }
+  .filter-btn .filter-count { opacity:.55;margin-left:.45rem; }
+  .project-card[hidden] { display:none; }
+  @media (max-width:640px) { .project-filters { margin-top:-1.5rem; } .filter-btn { font-size:10px;padding:.5rem .7rem; } }
   .projects-grid { display:grid;gap:1px;background:var(--border); }
   .project-card { background:var(--bg);padding:3rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;transition:background .3s;text-decoration:none;color:inherit;position:relative;overflow:hidden; }
   .project-card::before { content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent) 0%,transparent 60%);opacity:0;transition:opacity .4s; }
   .project-card:hover::before { opacity:.03; }
   .project-card:hover { background:var(--bg2); }
+  .project-card.static { cursor:default; }
+  .project-card.static:hover { background:var(--bg); }
+  .project-card.static:hover::before { opacity:0; }
   .project-meta { display:flex;gap:1rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap; }
   .project-type { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent); }
   .project-year { font-family:'DM Mono',monospace;font-size:10px;color:var(--muted); }
@@ -260,7 +272,7 @@
   </div>
   <div class="hero-stats">
     <div class="stat-item"><div class="stat-number">2+</div><div class="stat-label">ano em TI</div></div>
-    <div class="stat-item"><div class="stat-number">8+</div><div class="stat-label">projetos reais</div></div>
+    <div class="stat-item"><div class="stat-number">10+</div><div class="stat-label">projetos reais</div></div>
     <div class="stat-item"><div class="stat-number">∞</div><div class="stat-label">Limoneto consumido</div></div>
   </div>
   <div class="scroll-hint"><div class="scroll-line"></div><span class="scroll-text">scroll</span></div>
@@ -313,21 +325,17 @@
     <span class="section-num">02</span>
     <h2 class="section-title">Projetos <em>reais</em></h2>
   </div>
+  <div class="project-filters reveal" role="group" aria-label="Filtrar projetos por tipo">
+    <button type="button" class="filter-btn" data-filter="todos" aria-pressed="true">Todos<span class="filter-count">10</span></button>
+    <button type="button" class="filter-btn" data-filter="site" aria-pressed="false">Sites &amp; Landing Pages<span class="filter-count">3</span></button>
+    <button type="button" class="filter-btn" data-filter="sistema" aria-pressed="false">Sistemas &amp; Painéis<span class="filter-count">4</span></button>
+    <button type="button" class="filter-btn" data-filter="dados" aria-pressed="false">Dados &amp; Integrações<span class="filter-count">3</span></button>
+  </div>
+
   <div class="projects-grid">
-
-    <a href="#" class="project-card reveal">
+    <a href="https://eusoumensageiros.com.br/" target="_blank" rel="noopener" class="project-card reveal" data-cat="site">
       <div>
-        <span class="project-highlight">Projeto de destaque</span>
-        <div class="project-meta"><span class="project-type">Painel / Arquitetura</span><span class="project-year">CMS Impex · 2024–2025</span></div>
-        <h3 class="project-name">Painel de Controle</h3>
-        <p class="project-desc">Um local onde sua empresa não vê apenas dados, mas números que trazem estratégia e direção para o crescimento. Sistema web proprietário que reúne KPIs financeiros e comerciais, aging de contas a receber/pagar, fluxo de caixa projetado e análise de risco de concentração. Tudo num único painel que a gestão usa pra decisão real, sem depender de planilha paralela.</p>
-        <div class="project-stack"><span class="stack-tag">Node.js</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Dados Estratégicos</span><span class="stack-tag">REST APIs</span></div>
-      </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
-    <a href="https://eusoumensageiros.com.br/" target="_blank" rel="noopener" class="project-card reveal">
-      <div>
+        <span class="project-highlight">No ar · projeto de destaque</span>
         <div class="project-meta"><span class="project-type">Site completo / Sistema</span><span class="project-year">2025–2026</span></div>
         <h3 class="project-name">Mensageiros da Palavra</h3>
         <p class="project-desc">Criação completa do site institucional do Mensageiros da Palavra, do design às páginas de políticas, incluindo o sistema de gestão de inscrições para eventos com centenas de participantes e a integração de pagamento via Mercado Pago, do cadastro à confirmação, sem controle manual em planilha. Projeto em produção, mantido e evoluído junto com o crescimento dos eventos.</p>
@@ -336,37 +344,80 @@
       <div class="project-arrow">↗</div>
     </a>
 
-    <a href="#" class="project-card reveal">
+    <div class="project-card static reveal" data-cat="site">
       <div>
         <div class="project-meta"><span class="project-type">Site leve</span><span class="project-year">2025</span></div>
         <h3 class="project-name">Landing Page: Imobiliária CCI</h3>
         <p class="project-desc">Desenvolvimento de landing page para captação de leads imobiliários. Entrega com documento formal de aceite de escopo para garantir alinhamento e proteção das partes. Projeto freelance do início ao fim.</p>
         <div class="project-stack"><span class="stack-tag">HTML/CSS</span><span class="stack-tag">JavaScript</span><span class="stack-tag">SEO</span></div>
       </div>
-      <div class="project-arrow">↗</div>
-    </a>
+    </div>
 
-    <a href="#" class="project-card reveal">
+    <div class="project-card static reveal" data-cat="sistema">
+      <div>
+        <span class="project-highlight outline">Atuação atual · startup</span>
+        <div class="project-meta"><span class="project-type">SaaS / Plataforma multiempresa</span><span class="project-year">Nyelu · 2026</span></div>
+        <h3 class="project-name">Nyelu: plataforma de gestão para salões</h3>
+        <p class="project-desc">Atuo no time técnico da Nyelu, startup que opera um SaaS de gestão para salões de beleza — aqui não sou dono do produto, sou parte do time que constrói. A plataforma é multiempresa com isolamento real por banco de dados, controle de acesso decidido no servidor (a tela nunca é o guarda) e LGPD que funciona de verdade: portabilidade e eliminação de dados, não só aviso de cookie. Em produção roda agenda, comanda, fechamento de caixa, comissionamento com taxa datada, emissão de NFS-e, assinatura recorrente por PIX Automático e atendimento por WhatsApp nativo — com um motor de alertas determinístico, sem IA no meio, avisando a gestão do que saiu do lugar.</p>
+        <div class="project-stack"><span class="stack-tag">Next.js</span><span class="stack-tag">TypeScript</span><span class="stack-tag">Multi-tenant</span><span class="stack-tag">WhatsApp API</span><span class="stack-tag">PIX / Asaas</span><span class="stack-tag">NFS-e</span></div>
+      </div>
+    </div>
+
+    <div class="project-card static reveal" data-cat="sistema">
+      <div>
+        <div class="project-meta"><span class="project-type">Painel / Arquitetura</span><span class="project-year">CMS Impex · 2024–2025</span></div>
+        <h3 class="project-name">Painel de Controle</h3>
+        <p class="project-desc">Um local onde sua empresa não vê apenas dados, mas números que trazem estratégia e direção para o crescimento. Sistema web proprietário que reúne KPIs financeiros e comerciais, aging de contas a receber/pagar, fluxo de caixa projetado e análise de risco de concentração. Tudo num único painel que a gestão usa pra decisão real, sem depender de planilha paralela.</p>
+        <div class="project-stack"><span class="stack-tag">Node.js</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">Dados Estratégicos</span><span class="stack-tag">REST APIs</span></div>
+      </div>
+    </div>
+
+    <div class="project-card static reveal" data-cat="site">
       <div>
         <div class="project-meta"><span class="project-type">Jogo / Experiência Interativa</span><span class="project-year">CMS Impex · Marbow · Bentomar</span></div>
         <h3 class="project-name">Jogos para Feiras e Eventos</h3>
         <p class="project-desc">Jogos interativos em kiosk para estandes em feiras de exposição, desenvolvidos para três empresas diferentes. Objetivo: mais engajamento do público no estande e captação de lead qualificado, usando brinde como gatilho de participação. Cada jogo pensado como ferramenta de resultado, não só entretenimento.</p>
         <div class="project-stack"><span class="stack-tag">Kiosk</span><span class="stack-tag">Geração de Leads</span><span class="stack-tag">Engajamento</span></div>
       </div>
-      <div class="project-arrow">↗</div>
-    </a>
+    </div>
 
-    <a href="#" class="project-card reveal">
+    <div class="project-card static reveal" data-cat="sistema">
+      <div>
+        <div class="project-meta"><span class="project-type">Análise técnica / Arquitetura</span><span class="project-year">Nyelu · 2026</span></div>
+        <h3 class="project-name">Spec de CRM × sistema em produção: mapa de lacunas</h3>
+        <p class="project-desc">Um cliente chegou com a especificação de um CRM e um cronograma de 14 sprints. Em vez de aceitar o documento e começar a codar, li item por item contra o que o sistema já fazia e classifiquei cada ponto: já tem, tem pela metade, falta, ou discordo — e aqui está o porquê. O diagnóstico: a primeira fase estava praticamente pronta, e o que faltava não era infraestrutura, era dar nome ao que o sistema já fazia sem registrar. Entreguei como mapa ramificado navegável em vez de PDF de 40 páginas que ninguém abre, e o cronograma foi reescrito pelo que realmente faltava. Analisar antes de implementar economizou meses.</p>
+        <div class="project-stack"><span class="stack-tag">Análise de Requisitos</span><span class="stack-tag">Arquitetura de Sistemas</span><span class="stack-tag">Documentação Técnica</span><span class="stack-tag">JavaScript</span></div>
+      </div>
+    </div>
+
+    <div class="project-card static reveal" data-cat="dados">
+      <div>
+        <div class="project-meta"><span class="project-type">Automação</span><span class="project-year">CMS Impex · 2024</span></div>
+        <h3 class="project-name">Pipeline ERP → Power BI</h3>
+        <p class="project-desc">Pipeline de dados automatizado que extrai informações do ERP Spalla, transforma e disponibiliza para dashboards em Power BI. Relatórios que a gestão da CMS Impex usa toda semana para tomada de decisão.</p>
+        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Power BI</span><span class="stack-tag">API REST</span><span class="stack-tag">ETL</span></div>
+      </div>
+    </div>
+
+    <div class="project-card static reveal" data-cat="dados">
       <div>
         <div class="project-meta"><span class="project-type">Arquitetura / Integração</span><span class="project-year">CMS Impex · 2026</span></div>
         <h3 class="project-name">Integração LogManager × Spalla</h3>
         <p class="project-desc">Arquitetura de integração entre o ERP (Spalla) e a API do LogManager/LogComex para rastreamento automático de embarques: status, prazos e eventos aduaneiros direto no processo, sem consulta manual em múltiplos sistemas. Da análise de gap entre o que a API oferecia e o que o fornecedor entregava, até a definição dos critérios de aceite técnico.</p>
         <div class="project-stack"><span class="stack-tag">REST API</span><span class="stack-tag">Integração de ERP</span><span class="stack-tag">Análise de API</span></div>
       </div>
-      <div class="project-arrow">↗</div>
-    </a>
+    </div>
 
-    <a href="#" class="project-card reveal">
+    <div class="project-card static reveal" data-cat="dados">
+      <div>
+        <div class="project-meta"><span class="project-type">Automação / Auditoria</span><span class="project-year">CMS Impex · 2024</span></div>
+        <h3 class="project-name">Auditoria de Integridade: ERP vs. Armazém Terceirizado</h3>
+        <p class="project-desc">Sistema de auditoria com hashing SHA-256 para garantir integridade entre o estoque registrado no ERP e o estoque no sistema do operador logístico terceirizado. Elimina divergência manual e gera relatório de inconsistência automaticamente.</p>
+        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">SHA-256</span><span class="stack-tag">API REST</span><span class="stack-tag">MySQL</span></div>
+      </div>
+    </div>
+
+    <div class="project-card static reveal" data-cat="sistema">
       <div>
         <span class="project-highlight outline">Proposta técnica, não implementado</span>
         <div class="project-meta"><span class="project-type">Estratégia / Arquitetura</span><span class="project-year">2025</span></div>
@@ -374,29 +425,7 @@
         <p class="project-desc">Proposta técnica e arquitetura completa de CRM SaaS para empresa de tráfego imobiliário migrando para produto digital. Modelo de dados, features e roadmap definidos do zero.</p>
         <div class="project-stack"><span class="stack-tag">SaaS Architecture</span><span class="stack-tag">Product Design</span><span class="stack-tag">Modelagem de Dados</span></div>
       </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
-    <a href="#" class="project-card reveal">
-      <div>
-        <div class="project-meta"><span class="project-type">Automação</span><span class="project-year">CMS Impex · 2024</span></div>
-        <h3 class="project-name">Pipeline ERP → Power BI</h3>
-        <p class="project-desc">Pipeline de dados automatizado que extrai informações do ERP Spalla, transforma e disponibiliza para dashboards em Power BI. Relatórios que a gestão da CMS Impex usa toda semana para tomada de decisão.</p>
-        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">Power BI</span><span class="stack-tag">API REST</span><span class="stack-tag">ETL</span></div>
-      </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
-    <a href="#" class="project-card reveal">
-      <div>
-        <div class="project-meta"><span class="project-type">Automação / Auditoria</span><span class="project-year">CMS Impex · 2024</span></div>
-        <h3 class="project-name">Auditoria de Integridade: ERP vs. Armazém Terceirizado</h3>
-        <p class="project-desc">Sistema de auditoria com hashing SHA-256 para garantir integridade entre o estoque registrado no ERP e o estoque no sistema do operador logístico terceirizado. Elimina divergência manual e gera relatório de inconsistência automaticamente.</p>
-        <div class="project-stack"><span class="stack-tag">Python</span><span class="stack-tag">SHA-256</span><span class="stack-tag">API REST</span><span class="stack-tag">MySQL</span></div>
-      </div>
-      <div class="project-arrow">↗</div>
-    </a>
-
+    </div>
   </div>
 </section>
 
@@ -563,6 +592,37 @@
     entries.forEach((entry,i)=>{if(entry.isIntersecting)setTimeout(()=>entry.target.classList.add('visible'),i*80)});
   },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // ── Filtro de projetos ──
+  // Sem JS a grid aparece inteira, que é o comportamento certo pra buscador e pra leitor de tela.
+  (() => {
+    const botoes = document.querySelectorAll('.filter-btn');
+    const cards  = document.querySelectorAll('.project-card[data-cat]');
+    if (!botoes.length || !cards.length) return;
+
+    // Contagem sai do DOM: card novo entra na grid e o número se corrige sozinho.
+    botoes.forEach(b => {
+      const f = b.dataset.filter;
+      const n = f === 'todos' ? cards.length
+                              : [...cards].filter(c => c.dataset.cat === f).length;
+      const span = b.querySelector('.filter-count');
+      if (span) span.textContent = n;
+      b.hidden = n === 0;
+    });
+
+    const aplicar = (filtro) => {
+      cards.forEach(card => {
+        const mostra = filtro === 'todos' || card.dataset.cat === filtro;
+        card.hidden = !mostra;
+        // O observer de scroll só dispara em elemento visível. Card revelado pelo
+        // filtro nunca cruzou a viewport, então receberia opacity:0 pra sempre.
+        if (mostra) card.classList.add('visible');
+      });
+      botoes.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === filtro)));
+    };
+
+    botoes.forEach(b => b.addEventListener('click', () => aplicar(b.dataset.filter)));
+  })();
 
   // ── Formulário de orçamento → WhatsApp ──
   // TODO(Gui): troca pelo seu número real, formato DDI+DDD+número, sem espaços/símbolos.
