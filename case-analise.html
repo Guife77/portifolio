@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case: spec de CRM × sistema em produção | Gui Fernandes</title>
+<meta name="description" content="Como eu leio uma especificação antes de codar: quatro veredictos por item, cada afirmação sustentada pelo código. Mapa navegável de uma análise real.">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="canonical" href="https://guilhermeportifolio.vercel.app/case-analise.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Gui Fernandes">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://guilhermeportifolio.vercel.app/case-analise.html">
+<meta property="og:title" content="Analisar antes de codar — um case navegável">
+<meta property="og:description" content="Um cliente chegou com uma spec de CRM e 14 sprints planejadas. Li item por item contra o sistema em produção. O plano encolheu.">
+<meta property="og:image" content="https://guilhermeportifolio.vercel.app/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --bg2: #111111; --bg3: #1a1a1a;
+    --accent: #c8ff00; --text: #e8e8e0; --muted: #868680;
+    --border: #2a2a2a; --px: 2rem;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  body {
+    background:var(--bg); color:var(--text);
+    font:400 16px/1.6 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+
+  header { flex:none; border-bottom:1px solid var(--border); padding:1rem var(--px); }
+  .voltar {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--accent); text-decoration:none;
+    display:inline-block; margin-bottom:.7rem;
+  }
+  .voltar:hover { text-decoration:underline; }
+  .titulo-linha { display:flex; flex-wrap:wrap; align-items:baseline; gap:.4rem 1.2rem; }
+  header h1 {
+    font-family:'Fraunces',serif; font-size:clamp(1.05rem,2.6vw,1.5rem);
+    font-weight:700; letter-spacing:-.02em; line-height:1.2; min-width:0;
+  }
+  header h1 em { font-style:italic; font-weight:300; color:var(--muted); }
+  .dica {
+    margin-left:auto; font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+  }
+  @media (max-width:760px) { .dica { display:none; } }
+
+  .aviso {
+    flex:none; background:var(--bg2); border-bottom:1px solid var(--border);
+    padding:.75rem var(--px); font-size:12.5px; font-weight:300; color:var(--muted);
+  }
+  .aviso b { color:var(--text); font-weight:400; }
+
+  #palco { position:relative; flex:1 1 auto; min-height:0; width:100%; overflow:auto; }
+  #cena { position:relative; width:max-content; min-width:100%; padding:2.5rem 1rem; }
+  @media (min-width:640px) { #cena { padding-inline:2rem; } }
+  #curvas { position:absolute; inset:0; z-index:0; overflow:visible; pointer-events:none; }
+
+  ul { position:relative; z-index:1; margin:0; padding:0; list-style:none; }
+  li { display:flex; align-items:center; }
+  li > ul { display:flex; flex-direction:column; justify-content:center; gap:4px; padding:4px 0 4px 56px; }
+  @media (min-width:640px) { li > ul { padding-left:90px; } }
+
+  .no-rotulo {
+    display:flex; align-items:flex-end; gap:8px; text-align:left;
+    border:0; border-bottom:1px solid var(--border);
+    padding:0 12px 6px 0; background:transparent; color:var(--text);
+    font:inherit; transition:color .15s, border-color .15s;
+  }
+  button.no-rotulo { cursor:pointer; }
+  button.no-rotulo:hover { color:#fff; border-bottom-color:var(--accent); }
+  button.no-rotulo:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+  .no-rotulo > .texto { display:block; max-width:min(30rem,72vw); }
+  .no-rotulo > .conta {
+    flex:none; padding-bottom:2px; color:var(--muted);
+    font:400 10px/1 'DM Mono',monospace; letter-spacing:.08em;
+  }
+
+  /* Tamanho por profundidade, igual ao componente original */
+  .p0 { font-family:'Fraunces',serif; font-size:19px; font-weight:700; letter-spacing:-.02em; }
+  @media (min-width:640px) { .p0 { font-size:22px; } }
+  .p1 { font:500 11px/1.45 'DM Mono',monospace; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); }
+  .p2 { font-size:15px; font-weight:500; }
+  .p3 { font-size:13.5px; font-weight:300; color:var(--muted); }
+  .p4 { font-size:12.5px; font-weight:300; color:var(--muted); }
+
+  /* Os quatro veredictos da análise */
+  .v { font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:.14em;
+       padding:2px 6px; margin-right:7px; border-radius:1px; white-space:nowrap; }
+  .v-tem    { color:#0a0a0a; background:var(--accent); }
+  .v-parte  { color:var(--accent); border:1px solid var(--accent); }
+  .v-falta  { color:#ff9c6e; border:1px solid #ff9c6e; }
+  .v-atrito { color:#7fd4ff; border:1px solid #7fd4ff; }
+
+  footer {
+    flex:none; border-top:1px solid var(--border); padding:1rem var(--px);
+    display:flex; flex-wrap:wrap; align-items:center; gap:.75rem 1.5rem;
+    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.15em;
+    text-transform:uppercase; color:var(--muted);
+  }
+  .btn {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    background:var(--accent); color:#0a0a0a; padding:10px 20px; text-decoration:none; font-weight:500;
+  }
+  .btn:hover { filter:brightness(1.08); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; scroll-behavior:auto !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="voltar" href="/#projetos">← voltar para os projetos</a>
+  <div class="titulo-linha">
+    <h1>Uma spec de CRM <em>×</em> o sistema que já estava em produção</h1>
+    <span class="dica">clique num tópico para ramificar</span>
+  </div>
+</header>
+
+<p class="aviso">
+  <b>Case anonimizado.</b> Cliente, empresa, nomes de tabela, identificadores internos e trechos de
+  código foram removidos. O que ficou é o método — que é a parte que interessa a quem está decidindo
+  se me contrata.
+</p>
+
+<div id="palco">
+  <div id="cena">
+    <svg id="curvas" xmlns="http://www.w3.org/2000/svg"></svg>
+    <ul id="raiz"></ul>
+  </div>
+</div>
+
+<footer>
+  <span>Análise de requisitos</span>
+  <span>·</span>
+  <span>Arquitetura de sistemas</span>
+  <span>·</span>
+  <span>2026</span>
+  <a class="btn" href="/#contato" style="margin-left:auto">Falar comigo</a>
+</footer>
+
+<script>
+/* Conteúdo anonimizado. A fonte é este arquivo, nunca entrada de usuário —
+   por isso o innerHTML no rótulo é seguro aqui. */
+const TEM    = '<span class="v v-tem">TEM</span>';
+const PARTE  = '<span class="v v-parte">PARTE</span>';
+const FALTA  = '<span class="v v-falta">FALTA</span>';
+const ATRITO = '<span class="v v-atrito">ATRITO</span>';
+
+const MAPA = {
+  t: "Uma spec de CRM × o sistema que já estava em produção",
+  k: [
+    { t: "Como eu leio uma especificação", k: [
+      { t: "Quatro veredictos, um por item. Nunca um “vamos ver”", k: [
+        { t: TEM + "já existe e atende o que a spec pede" },
+        { t: PARTE + "a lógica existe; falta a tela, o painel ou o registro" },
+        { t: FALTA + "não existe — e aqui está o que destrava quando existir" },
+        { t: ATRITO + "existe, funciona, e a spec pede outra coisa. Aqui eu discordo e explico por quê" }
+      ]},
+      { t: "Toda afirmação aponta para o código que a sustenta", k: [
+        { t: "Sem isso, “já temos isso” vira opinião contra opinião na reunião" },
+        { t: "Com isso, a reunião discute decisão em vez de discutir inventário" }
+      ]},
+      { t: "O que falta vem com o que destrava, não só com o que custa", k: [
+        { t: "“Falta X” é reclamação" },
+        { t: "“Falta X, e sem X quatro indicadores do documento não têm denominador” é argumento" }
+      ]}
+    ]},
+
+    { t: "O que a leitura encontrou", k: [
+      { t: "A primeira fase do cronograma estava quase toda pronta", k: [
+        { t: TEM + "isolamento de dados por cliente, decidido no servidor" },
+        { t: TEM + "permissão por papel, com a negação no back-end — a tela nunca é o guarda" },
+        { t: TEM + "cadastro, agenda, venda, fechamento de caixa e emissão fiscal, em produção" },
+        { t: TEM + "atendimento por mensagem, com histórico e mídia guardados" }
+      ]},
+      { t: "O padrão do que estava pela metade", k: [
+        { t: PARTE + "a regra existia e rodava por script, mas não tinha tela" },
+        { t: PARTE + "os fatos estavam separados e corretos; faltava a leitura única que junta os três" },
+        { t: PARTE + "o filtro certo existia, mas quem era contatado não virava registro" },
+        { t: "O padrão se repetia: o sistema fazia a coisa e não guardava que tinha feito" }
+      ]},
+      { t: "O buraco central: o que acontece antes de a pessoa virar cliente", k: [
+        { t: FALTA + "ela só entrava no sistema depois de fechar. Antes disso, vivia na conversa" },
+        { t: FALTA + "nenhuma venda sabia dizer que contato a precedeu" },
+        { t: "Consequência: taxa de contato, taxa de resposta e conversão não tinham denominador. Nenhuma das três era calculável" },
+        { t: "É exatamente o que separa “a campanha funcionou” de “achamos que funcionou”" }
+      ]}
+    ]},
+
+    { t: "Onde eu discordei da spec", k: [
+      { t: ATRITO + "trocar um fornecedor que já estava em produção", k: [
+        { t: "O documento pedia a troca sem dizer o que o novo resolvia que o atual não resolve" },
+        { t: "Trocar jogaria fora integração, histórico e automação funcionando" },
+        { t: "Minha resposta não foi “não”. Foi: me diga o ganho e eu troco" }
+      ]},
+      { t: ATRITO + "reescrever o que funciona em nome de um padrão", k: [
+        { t: "A spec queria um log de eventos como espinha dorsal de tudo" },
+        { t: "Adotar isso para tudo é reescrever o que já funciona" },
+        { t: "A saída honesta: log de evento só onde o fato ainda não tem dono, não no sistema inteiro" }
+      ]},
+      { t: ATRITO + "uma decisão que o documento tratava como pergunta em aberto", k: [
+        { t: "Já estava respondida havia meses — na prática, em produção" },
+        { t: "Isso não precisava de reunião. Precisava que o documento fosse corrigido" }
+      ]}
+    ]},
+
+    { t: "O que eu propus no lugar", k: [
+      { t: "Onda 1 — dar nome ao que já acontece", k: [
+        { t: "O maior retorno por linha de código do projeto inteiro" },
+        { t: "Registrar a origem de cada cliente: uma coluna e um campo no formulário" },
+        { t: "Transformar contato em fato registrado, não em conversa solta" },
+        { t: "Destrava metade dos indicadores do documento sem nenhuma funcionalidade nova" }
+      ]},
+      { t: "Onda 2 — o funil, agora com dado para alimentar", k: [
+        { t: "Etapa, responsável, próxima ação e prazo, validados no servidor" },
+        { t: "Um funil primeiro, não os três juntos: aquele que já tinha público pronto" }
+      ]},
+      { t: "Onda 3 — o dinheiro explicado antes de calculado", k: [
+        { t: "Custo, taxa e imposto versionados, com vigência" },
+        { t: "Só então margem. Margem com componente faltando é chute com cara de número" }
+      ]},
+      { t: "O resultado da leitura", k: [
+        { t: "O cronograma de 14 sprints estava superestimado para este sistema" },
+        { t: "Reescrever o plano pelo que realmente faltava foi a primeira entrega" },
+        { t: "Analisar antes de implementar cortou meses de trabalho que não precisava existir" }
+      ]}
+    ]}
+  ]
+};
+
+/* ---- acordeão ---- */
+const idDoNo = (caminho) => ['r', ...caminho].join('.');
+const ehDescendente = (id, pai) => id.startsWith(pai + '.');
+const paiDe = (id) => id.slice(0, id.lastIndexOf('.'));
+
+let abertos = new Set([idDoNo([])]);
+(MAPA.k || []).forEach((_, i) => abertos.add(idDoNo([i])));
+
+function alternar(id, profundidade) {
+  const proximo = new Set(abertos);
+  if (proximo.has(id)) {
+    // Fechar leva os filhos junto: reabrir não ressuscita galho esquecido lá embaixo.
+    proximo.delete(id);
+    for (const outro of abertos) if (ehDescendente(outro, id)) proximo.delete(outro);
+    abertos = proximo;
+    return false;
+  }
+  // Profundidade 1 são os blocos: ficam abertos juntos, são o índice do case.
+  if (profundidade >= 2) {
+    const pai = paiDe(id);
+    for (const outro of abertos) {
+      if (outro !== id && paiDe(outro) === pai) {
+        proximo.delete(outro);
+        for (const neto of abertos) if (ehDescendente(neto, outro)) proximo.delete(neto);
+      }
+    }
+  }
+  proximo.add(id);
+  abertos = proximo;
+  return true;
+}
+
+/* ---- render ---- */
+const raiz  = document.getElementById('raiz');
+const palco = document.getElementById('palco');
+const cena  = document.getElementById('cena');
+const svg   = document.getElementById('curvas');
+
+const classeTamanho = (p) => 'p' + Math.min(p, 4);
+
+function montarNo(no, caminho) {
+  const id = idDoNo(caminho);
+  const profundidade = caminho.length;
+  const filhos = no.k || [];
+  const temFilhos = filhos.length > 0;
+  const aberto = temFilhos && abertos.has(id);
+
+  const li = document.createElement('li');
+  li.dataset.aberto = aberto ? '1' : '0';
+
+  const texto = document.createElement('span');
+  texto.className = 'texto';
+  texto.innerHTML = no.t;
+
+  const rotulo = document.createElement(temFilhos ? 'button' : 'span');
+  rotulo.className = 'no-rotulo ' + classeTamanho(profundidade);
+  if (temFilhos) rotulo.type = 'button';
+  rotulo.appendChild(texto);
+
+  if (temFilhos) {
+    const conta = document.createElement('span');
+    conta.className = 'conta';
+    conta.textContent = aberto ? '−' : '+' + filhos.length;
+    rotulo.appendChild(conta);
+    rotulo.addEventListener('click', () => {
+      const abriu = alternar(id, profundidade);
+      redesenharTudo();
+      if (abriu) {
+        const alvo = document.querySelector('li[data-id="' + CSS.escape(id) + '"] > .no-rotulo');
+        if (alvo) requestAnimationFrame(() => focar(alvo));
+      }
+    });
+  }
+
+  li.dataset.id = id;
+  li.appendChild(rotulo);
+
+  if (aberto) {
+    const ul = document.createElement('ul');
+    filhos.forEach((filho, i) => ul.appendChild(montarNo(filho, [...caminho, i])));
+    li.appendChild(ul);
+  }
+  return li;
+}
+
+/* Curvas: medidas do DOM depois do paint. */
+function desenhar() {
+  const base = cena.getBoundingClientRect();
+  svg.setAttribute('width', String(cena.scrollWidth));
+  svg.setAttribute('height', String(cena.scrollHeight));
+  svg.setAttribute('viewBox', '0 0 ' + cena.scrollWidth + ' ' + cena.scrollHeight);
+
+  let d = '';
+  cena.querySelectorAll('li[data-aberto="1"]').forEach((pai) => {
+    const filhos = pai.querySelector(':scope > ul');
+    const rotulo = pai.querySelector(':scope > .no-rotulo');
+    if (!filhos || !rotulo) return;
+    const p = rotulo.getBoundingClientRect();
+    const px = p.right - base.left, py = p.bottom - base.top - 1;
+    const cor = getComputedStyle(rotulo).color;
+    Array.from(filhos.children).forEach((filho) => {
+      const rf = filho.querySelector(':scope > .no-rotulo');
+      if (!rf) return;
+      const c = rf.getBoundingClientRect();
+      const cx = c.left - base.left, cy = c.bottom - base.top - 1;
+      const dx = Math.max(24, (cx - px) * 0.55);
+      d += '<path d="M ' + px + ' ' + py + ' C ' + (px + dx) + ' ' + py + ', ' +
+           (cx - dx) + ' ' + cy + ', ' + cx + ' ' + cy +
+           '" fill="none" stroke="' + cor + '" stroke-width="1.6" stroke-opacity="0.5"/>';
+    });
+  });
+  svg.innerHTML = d;
+}
+
+/* O nó clicado encosta na esquerda, sobrando tela para os filhos que abriram. */
+function focar(alvo) {
+  const p = palco.getBoundingClientRect();
+  const a = alvo.getBoundingClientRect();
+  palco.scrollBy({
+    left: a.left - p.left - p.width * 0.12,
+    top:  a.top  - p.top  - p.height * 0.4 + a.height / 2,
+    behavior: 'smooth'
+  });
+}
+
+function redesenharTudo() {
+  raiz.replaceChildren(montarNo(MAPA, []));
+  desenhar();
+}
+
+redesenharTudo();
+window.addEventListener('resize', desenhar);
+</script>
+</body>
+</html>

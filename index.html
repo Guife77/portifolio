@@ -105,6 +105,9 @@
   .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start; }
   .about-text p { font-size:17px;font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1.5rem; }
   .about-text p strong { color:var(--text);font-weight:400; }
+  .link-inline { color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(200,255,0,.35);transition:border-color .2s; }
+  .link-inline:hover { border-bottom-color:var(--accent); }
+  .about-fine { font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--border);padding-top:1.5rem;margin-top:.5rem; }
   .skills-panel { display:flex;flex-direction:column;gap:2rem; }
   .skill-category { border-top:1px solid var(--border);padding-top:1.5rem; }
   .skill-cat-name { font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem; }
@@ -363,9 +366,27 @@
   </div>
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>Sou analista de sistemas e desenvolvedor back-end baseado em São Paulo. Atuo como <strong>o único profissional de TI da CMS Impex</strong>, onde cuido de tudo, da infraestrutura Microsoft 365 a integrações com ERP e pipelines de dados estratégicos. Também curso <strong>Ciência da Computação na UNIP</strong>.</p>
-      <p>Meu diferencial não é só código: é <strong>entender o problema antes de sair implementando</strong>. Sou flexível pro tamanho do projeto, de um site institucional simples a uma integração complexa entre sistemas: o que importa é resolver o que o seu negócio realmente precisa.</p>
-      <p>Para clientes freelance, entrego <strong>soluções técnicas com visão de negócio</strong>: não só o que você pediu, mas o que vai realmente resolver o problema.</p>
+        <p>Sou <strong>o único profissional de TI da CMS Impex</strong>. Na prática: quando o
+        ERP para de bater com o estoque do armazém, quando o relatório que a diretoria usa na
+        segunda não fecha, ou quando o e-mail da empresa inteira cai, a pessoa que resolve sou eu.
+        Não tem time pra quem repassar. Aprendi a <strong>diagnosticar antes de chutar</strong>
+        porque, ali, chutar errado custa o dia.</p>
+
+        <p>Por isso a primeira coisa que eu faço num projeto não é abrir o editor.
+        Numa análise recente, li a especificação de um CRM contra o sistema que já
+        estava em produção: boa parte do que o documento pedia já existia, e o cronograma
+        de 14 sprints encolheu. Cobrar pra construir o que já está pronto é fácil.
+        <strong>Dizer que não precisa ser construído</strong> é o que eu prefiro fazer —
+        <a href="/case-analise.html" class="link-inline">o mapa dessa análise está aqui</a>.</p>
+
+        <p>Trabalho com projeto do tamanho certo. Landing page de uma página e integração
+        entre sistemas são coisas diferentes, e tratar as duas como a mesma coisa é desonesto
+        nos dois sentidos. <strong>Escopo por escrito antes de começar</strong>. E se eu achar que
+        o que você pediu não resolve o que você tem, eu falo — antes de você pagar,
+        não depois.</p>
+
+        <p class="about-fine">São Paulo · Ciência da Computação na UNIP ·
+        disponível para freelance</p>
     </div>
     <div class="skills-panel reveal">
       <div class="skill-category">
@@ -459,14 +480,15 @@
       </div>
     </div>
 
-    <div class="project-card static reveal" data-cat="sistema">
+    <a href="/case-analise.html" class="project-card reveal" data-cat="sistema">
       <div>
         <div class="project-meta"><span class="project-type">Análise técnica / Arquitetura</span><span class="project-year">Nyelu · 2026</span></div>
         <h3 class="project-name">Spec de CRM × sistema em produção: mapa de lacunas</h3>
-        <p class="project-desc">Um cliente chegou com a especificação de um CRM e um cronograma de 14 sprints. Em vez de aceitar o documento e começar a codar, li item por item contra o que o sistema já fazia e classifiquei cada ponto: já tem, tem pela metade, falta, ou discordo — e aqui está o porquê. O diagnóstico: a primeira fase estava praticamente pronta, e o que faltava não era infraestrutura, era dar nome ao que o sistema já fazia sem registrar. Entreguei como mapa ramificado navegável em vez de PDF de 40 páginas que ninguém abre, e o cronograma foi reescrito pelo que realmente faltava. Analisar antes de implementar economizou meses.</p>
+        <p class="project-desc">Um cliente chegou com a especificação de um CRM e um cronograma de 14 sprints. Em vez de aceitar o documento e começar a codar, li item por item contra o que o sistema já fazia e classifiquei cada ponto: já tem, tem pela metade, falta, ou discordo — e aqui está o porquê. O diagnóstico: a primeira fase estava praticamente pronta, e o que faltava não era infraestrutura, era dar nome ao que o sistema já fazia sem registrar. Entreguei como mapa ramificado navegável em vez de PDF de 40 páginas que ninguém abre, e o cronograma foi reescrito pelo que realmente faltava. Analisar antes de implementar economizou meses. <strong>Clique para navegar o mapa</strong> — versão anônima, sem cliente nem código interno.</p>
         <div class="project-stack"><span class="stack-tag">Análise de Requisitos</span><span class="stack-tag">Arquitetura de Sistemas</span><span class="stack-tag">Documentação Técnica</span><span class="stack-tag">JavaScript</span></div>
       </div>
-    </div>
+      <div class="project-arrow">↗</div>
+    </a>
 
     <div class="project-card static reveal" data-cat="dados">
       <div>
